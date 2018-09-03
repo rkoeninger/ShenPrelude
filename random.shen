@@ -1,6 +1,10 @@
-(set *seed* (shen.mod (get-time unix) (* 32768 32768)))
+(set *seed*
+  doc "Current random seed."
+  (shen.mod (get-time unix) (* 32768 32768)))
 
-(define next-random ->
+(define next-random
+  doc "Returns the next random value based on the current value of *seed*."
+  ->
   (let Seed (value *seed*)
        Next (shen.mod (* 5137 (+ Seed 10101)) (* 32768 32768))
     (do
@@ -8,10 +12,12 @@
       Next)))
 
 (define next-random-between
+  doc "Returns the next random value within the given range."
   I I -> I
   I J -> (+ I (shen.mod (next-random) (+ 1 (- J I)))))
 
 (define vector-swap
+  doc "Swaps two elements in given vector at following indicies."
   V I J ->
     (let X (<-vector V I)
       (do
@@ -20,6 +26,7 @@
         V)))
 
 (define shuffle-vector
+  doc "Randomizes elements in vector in place."
   V ->
     (do
       (for-each
@@ -28,4 +35,5 @@
       V))
 
 (define shuffle-list
+  doc "Randomizes elements in cons list, returning a new list."
   Xs -> (vector->list (shuffle-vector (list->vector Xs))))
