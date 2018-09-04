@@ -1,10 +1,5 @@
 (set *loaded* [])
 
-(define has?
-  _ [] -> false
-  X [X | _] -> true
-  X [_ | Xs] -> (has? X Xs))
-
 (define reload
   Name -> (load (@s (str Name) ".shen")))
 
@@ -24,7 +19,7 @@
 
 (define require-mode
   F Name ->
-    (if (has? Name (value *loaded*))
+    (if (element? Name (value *loaded*))
       cached
       (let Result (F Name)
         (do
