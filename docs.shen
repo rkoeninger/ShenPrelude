@@ -60,8 +60,8 @@
   (write-doc destroy "Erases given function.")
   (write-doc difference "Returns list of values that are in first list but not second.")
   (write-doc do "Returns result of last expression, used to group side-effecting expressions.")
-  \\ <e> [[list A] ==> [list B]]
-  \\ <!> [[list A] ==> [list A]]
+  \\ TODO: <e> [[list A] ==> [list B]]
+  \\ TODO: <!> [[list A] ==> [list A]]
   (write-doc element? "Returns true if value is in list.")
   (write-doc empty? "Returns true if argument is an empty list.")
   (write-doc enable-type-theory "Takes + or - to turn default type system on or off.")
@@ -69,7 +69,7 @@
   (write-doc error-to-string "Returns exception's message.")
   (write-doc explode "Converts value to string and returns list of unit strings.")
   (write-doc fail "Returns the failure symbol.")
-  \\ fail-if [[symbol --> boolean] --> [symbol --> symbol]]
+  \\ TODO: fail-if [[symbol --> boolean] --> [symbol --> symbol]]
   (write-doc fix "Repeatedly applies function until it returns the same value it was given.")
   (write-doc freeze "Returns a function that will evaluate expression.")
   (write-doc fst "Returns the first value in a 2-tuple.")
@@ -86,13 +86,13 @@
   (write-doc if "Evaluates condition, evaluates and returns second expression if true, third expression if false.")
   (write-doc it "Returns expression that contains the call to (it).")
   (write-doc implementation "Returns name of language implementation/platform.")
-
+  \\ TODO: more here
   (write-doc release "Returns version of language implementation/platform.")
   (write-doc remove "Removes all occurances of value from list.")
   (write-doc reverse "Returns new list with same elements in reverse order.")
   (write-doc simple-error "Raises exception with given error message.")
   (write-doc snd "Returns the first value in a 2-tuple.")
-
+  \\ TODO: more here
   (write-doc variable? "Returns true if symbol could be a variable.")
   (write-doc vector? "Returns true if given value is a vector (not just an absvector).")
   (write-doc version "Returns version of Shen.")
@@ -109,4 +109,5 @@
   (write-doc - "Subtracts second number from first.")
   (write-doc * "Multiplies two numbers.")
   (write-doc == "Returns true if two values are equal, which can be different static types.")
-  ())
+
+  docs-written)

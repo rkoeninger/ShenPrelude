@@ -1,9 +1,7 @@
-\\ TODO: how to make this work?
-
-\\(define function?
-\\  doc "Returns true if argument is a function."
-\\  {A --> boolean}
-\\  F -> (shen.posint? (arity F)))
+(define function?
+  doc "Returns true if argument is a function."
+  {A --> boolean}
+  F -> (let N (arity F) (and (integer? N) (>= N 0))))
 
 (define curry
   doc "Converts function that takes tuple to function that takes arguments individually."
