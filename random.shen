@@ -5,8 +5,7 @@
 (define next-random
   doc "Returns the next random value based on the current value of *seed*."
   ->
-  (let Seed (value *seed*)
-       Next (shen.mod (* 5137 (+ Seed 10101)) (* 32768 32768))
+  (let Next (shen.mod (* 5137 (+ &'*seed* 10101)) (* 32768 32768))
     (do
       (set *seed* Next)
       Next)))
