@@ -41,10 +41,23 @@
   _ Xs -> Xs)
 
 (define split-at
+  doc "Splits list into two sublists at given index."
   {number --> (list A) --> ((list A) * (list A))}
   N Xs -> (@p (take N Xs) (drop N Xs)))
 
+(define separate
+  doc "Splits list into two separate lists based on whether predicate returns true or false."
+  {(A --> boolean) --> (list A) --> ((list A) * (list A))}
+  F Xs ->
+    (map-both
+      #'reverse
+      (fold-left
+        (/. P X ((if (F X) #'map-fst #'map-snd) (prepend X) P))
+        (@p [] [])
+        Xs)))
+
 (define partition
+  doc "Splits list into list of sublists, each no longer than given length."
   {number --> (list A) --> (list (list A))}
   N Xs ->
     (let S (split-at N Xs)
@@ -69,11 +82,13 @@
   _ _ -> [])
 
 (define fold-left
+  doc "Combines values in list from left to right using given function."
   {(A --> B --> A) --> A --> (list B) --> A}
   F X [Y | Ys] -> (fold-left F (F X Y) Ys)
   _ X _ -> X)
 
 (define fold-right
+  doc "Combines values in list from right to left using given function."
   {(B --> A --> A) --> A --> (list B) --> A}
   F X [Y | Ys] -> (F Y (fold-right F X Ys))
   _ X _ -> X)
@@ -89,16 +104,19 @@
   Xs -> (reverse (fold-left (/. Ds X (if (contains? X Ds) Ds [X | Ds])) [] Xs)))
 
 (define repeat
+  doc "Builds list by repeating the same value N times."
   {number --> A --> (list A)}
   0 _ -> []
   N X -> [X | (repeat (- N 1) X)])
 
 (define repeatedly
+  doc "Builds list by invoking the same function N times."
   {number --> (--> A) --> (list A)}
   0 _ -> []
   N F -> [(F) | (repeatedly (- N 1) F)])
 
 (define unfold-onto
+  doc "Repeatedly calls given function until it returns empty list, prepending results onto given list."
   {(list A) --> (lazy (list A)) --> (list A)}
   Xs F ->
     (let X (thaw F)
@@ -107,10 +125,12 @@
         Xs)))
 
 (define unfold
+  doc "Builds list by repeatedly calling the given function until it returns an empty list."
   {(lazy (list A)) --> (list A)}
   F -> (reverse (unfold-onto [] F)))
 
 (define range
+  doc "Returns list of numbers from 1 up to and including the given number."
   {number --> (list number)}
   N ->
     (let Ref (@v 1 <>)
@@ -121,11 +141,13 @@
             (if (<= X N) [X] []))))))
 
 (define max-compare-by
+  doc "Returns maximum value in list comparing using given function."
   {(A --> A --> boolean) --> (list A) --> A}
   F [X | Xs] -> (fold-left (/. M X (if (F M X) X M)) X Xs)
   _ _ -> (error "max-compare-by: empty list"))
 
 (define max-by
+  doc "Returns value in list for which given function returns maximum value."
   {(A --> number) --> (list A) --> A}
   F Xs -> (max-compare-by (/. X Y (< (F X) (F Y))) Xs))
 
@@ -141,20 +163,24 @@
   [Xs | Xss] -> (append Xs (flatten Xss)))
 
 (define flat-map
+  doc "Applies function to each value in list and concat's results into one long list."
   {(A --> (list B)) --> (list A) --> (list B)}
   F Xs -> (flatten (map F Xs)))
 
 (define zip-with
+  doc "Lines up two lists and combines each pair of values into value in resulting list using given function."
   {(A --> B --> C) --> (list A) --> (list B) --> (list C)}
   _ [] _ -> []
   _ _ [] -> []
   F [X | Xs] [Y | Ys] -> [(F X Y) | (zip-with F Xs Ys)])
 
 (define zip
+  doc "Lines up two lists and combines each pair of values into tuple in resulting list."
   {(list A) --> (list B) --> (list (A * B))}
   Xs Ys -> (zip-with #'@p Xs Ys))
 
 (define cross-join-with
+  doc "Builds list of every combination of values in two lists using given function."
   {(A --> B --> C) --> (list A) --> (list B) --> (list C)}
   F Xs Ys -> (flat-map (/. X (map (F X) Ys)) Xs))
 
@@ -167,17 +193,6 @@
   doc "Inserts value between each value in list."
   {A --> (list A) --> (list A)}
   Sep Xs -> (tail (fold-left (/. Ys X [Sep X | Ys]) [] Xs)))
-
-(define separate
-  doc "Splits list into two separate lists based on whether predicate returns true or false."
-  {(A --> boolean) --> (list A) --> ((list A) * (list A))}
-  F Xs ->
-    (map-both
-      #'reverse
-      (fold-left
-        (/. P X ((if (F X) #'map-fst #'map-snd) (prepend X) P))
-        (@p [] [])
-        Xs)))
 
 (define vector->list
   doc "Makes a new list out of a vector."
