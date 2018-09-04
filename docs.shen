@@ -11,15 +11,12 @@
       [set Name | Rest]))
 
 (define read-doc
-  {symbol --> string}
   Name -> (trap-error (get Name doc) (/. E "n/a")))
 
 (define write-doc
-  {symbol --> string --> string}
   Name Content -> (put Name doc Content))
 
 (define info
-  {symbol --> string}
   Name ->
     (make-string "~%type:   ~A~%doc:    ~A~%source: ~A~%"
       (let TypeSig (shen.get-type Name)
@@ -28,6 +25,10 @@
           TypeSig))
       (read-doc Name)
       (trap-error (ps Name) (/. E "n/a"))))
+
+(declare read-doc [symbol --> string])
+(declare write-doc [symbol --> [string --> string]])
+(declare info [symbol --> string])
 
 (do
   \\ require
