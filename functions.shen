@@ -3,7 +3,7 @@
 \\(define function?
 \\  doc "Returns true if argument is a function."
 \\  {A --> boolean}
-\\  F -> (posint? (arity F)))
+\\  F -> (shen.posint? (arity F)))
 
 (define curry
   doc "Converts function that takes tuple to function that takes arguments individually."
