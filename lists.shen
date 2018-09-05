@@ -12,7 +12,8 @@
 (define all?
   doc "Returns true if predicate returns true for all elements in list."
   {(A --> boolean) --> (list A) --> boolean}
-  F Xs -> (not (any? (complement F) Xs)))
+  _ [] -> true
+  F [X | Xs] -> (and (F X) (all? F Xs)))
 
 (define take
   doc "Returns first n elements in list."
