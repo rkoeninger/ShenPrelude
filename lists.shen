@@ -15,18 +15,28 @@
   _ [] -> true
   F [X | Xs] -> (and (F X) (all? F Xs)))
 
+(define take-onto
+  doc "Copies first n elements from list onto other list."
+  {number --> (list A) --> (list A) --> (list A)}
+  0 _ Ys -> Ys
+  _ [] Ys -> Ys
+  N [X | Xs] Ys -> (take-onto (- N 1) Xs [X | Ys]))
+
 (define take
   doc "Returns first n elements in list."
   {number --> (list A) --> (list A)}
-  0 _ -> []
-  _ [] -> []
-  N [X | Xs] -> [X | (take (- N 1) Xs)])
+  N Xs -> (reverse (take-onto N Xs [])))
+
+(define take-while-onto
+  doc "Copies elements from list onto other list so long as given predicate returns true for them."
+  {(A --> boolean) --> (list A) --> (list A) --> (list A)}
+  F [X | Xs] Ys -> (take-while-onto F Xs [X | Ys]) where (F X)
+  _ _ Ys -> Ys)
 
 (define take-while
   doc "Returns list of consecutive leading elements so long as given predicate returns true for them."
   {(A --> boolean) --> (list A) --> (list A)}
-  F [X | Xs] -> [X | (take-while F Xs)] where (F X)
-  _ _ -> [])
+  F Xs -> (reverse (take-while-onto F Xs [])))
 
 (define drop
   doc "Returns all but the first n elements in list."
