@@ -1,5 +1,7 @@
 \\ TODO: emit the calls to set-doc instead of running them in macro
 
+(set *doc-index* [])
+
 (defmacro define-with-doc-macro
   [define Name doc Doc | Rest] ->
     (do
@@ -16,7 +18,31 @@
   Name -> (trap-error (get Name doc) (/. _ "n/a")))
 
 (define set-doc
-  Name Content -> (put Name doc Content))
+  Name Content ->
+    (do
+      (set *doc-index* [[Name Content] | (value *doc-index*)])
+      (put Name doc Content)))
+
+(define doc-prefix?
+  "" _ -> true
+  (@s Ch Ss) (@s Ch Ts) -> (doc-prefix? Ss Ts)
+  _ _ -> false)
+
+(define doc-matches?
+  _ "" -> false
+  S T -> true where (doc-prefix? S T)
+  S (@s _ T) -> (doc-matches? S T))
+
+(define find-doc-matches
+  _ [] -> []
+  "" _ -> []
+  S [[Name Content] | Rest] ->
+    [Name | (find-doc-matches S Rest)]
+    where (or (doc-matches? S (str Name)) (doc-matches? S Content))
+  S [_ | Rest] -> (find-doc-matches S Rest))
+
+(define search-doc
+  S -> (find-doc-matches S (value *doc-index*)))
 
 (define info
   Name ->
@@ -30,6 +56,7 @@
 
 (declare doc [symbol --> string])
 (declare set-doc [symbol --> [string --> string]])
+(declare search-doc [string --> [list symbol]])
 (declare info [symbol --> string])
 
 (do
@@ -41,8 +68,10 @@
   (set-doc require-typed "Loads script with (tc +) if it has not been loaded.")
 
   \\ docs
+  (set-doc *doc-index* "Assoication list of symbol names to doc strings.")
   (set-doc doc "Returns doc string for symbol, or 'n/a' if there isn't one.")
   (set-doc set-doc "Sets doc string for symbol.")
+  (set-doc search-doc "Searches for functions with doc strings similar to search string.")
   (set-doc info "Returns human readable string with type, doc string, source for symbol.")
 
   \\ kernel
