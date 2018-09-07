@@ -16,3 +16,25 @@
   {string --> number}
   "" -> 0
   (@s _ S) -> (+ 1 (string-length S)))
+
+(define lower-case-1
+  doc "Returns lower-case of given unit string."
+  {string --> string}
+  S -> (let N (string->n S) (n->string (+ N (if (and (>= N 65) (<= N 90)) 32 0)))))
+
+(define upper-case-1
+  doc "Returns upper-case of given unit string."
+  {string --> string}
+  S -> (let N (string->n S) (n->string (- N (if (and (>= N 97) (<= N 122)) 32 0)))))
+
+(define lower-case
+  doc "Returns copy of string with all characters converted to lower-case."
+  {string --> string}
+  "" -> ""
+  (@s S Ss) -> (@s (lower-case-1 S) (lower-case Ss)))
+
+(define upper-case
+  doc "Returns copy of string with all characters converted to upper-case."
+  {string --> string}
+  "" -> ""
+  (@s S Ss) -> (@s (upper-case-1 S) (upper-case Ss)))
