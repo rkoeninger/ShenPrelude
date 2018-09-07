@@ -9,7 +9,18 @@
   doc "Extracts substring from starting 0-based index."
   {number --> string --> string}
   0 S -> S
-  N (@s _ S) -> (substring-from (- N 1) S))
+  I (@s _ S) -> (substring-from (- I 1) S))
+
+(define substring-to
+  doc "Extracts substring up to 0-based index."
+  {number --> string --> string}
+  0 _ -> ""
+  I (@s S Ss) -> (@s S (substring-to (- I 1) Ss)))
+
+(define substring
+  doc "Extracts between starting and ending 0-based indicies."
+  {number --> number --> string --> string}
+  I J S -> (substring-to (- J I) (substring-from I S)))
 
 (define string-length
   doc "Returns length of string."
