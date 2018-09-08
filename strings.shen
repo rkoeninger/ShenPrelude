@@ -5,16 +5,25 @@
   (@s Ch Ss) (@s Ch Ts) -> (prefix? Ss Ts)
   _ _ -> false)
 
+(define suffix?
+  doc "Checks if second argument ends with the first."
+  {string --> string --> boolean}
+  S S -> true
+  S "" -> false
+  S (@s _ Ss) -> (suffix? S Ss))
+
 (define substring-from
   doc "Extracts substring from starting 0-based index."
   {number --> string --> string}
-  0 S -> S
+  _ "" -> ""
+  I S -> S where (<= I 0)
   I (@s _ S) -> (substring-from (- I 1) S))
 
 (define substring-to
   doc "Extracts substring up to 0-based index."
   {number --> string --> string}
-  0 _ -> ""
+  _ "" -> ""
+  I _ -> "" where (<= I 0)
   I (@s S Ss) -> (@s S (substring-to (- I 1) Ss)))
 
 (define substring
