@@ -28,7 +28,7 @@
   doc "Randomizes elements in vector in place."
   V ->
     (do
-      (for-each
+      (shen.for-each
         (/. I (vector-swap V I (next-random-between I (limit V))))
         (range (limit V)))
       V))
@@ -36,3 +36,9 @@
 (define shuffle-list
   doc "Randomizes elements in cons list, returning a new list."
   Xs -> (vector->list (shuffle-vector (list->vector Xs))))
+
+(declare next-random [--> number])
+(declare next-random-between [number --> [number --> number]])
+(declare vector-swap [[vector A] --> [number --> [number --> [vector A]]]])
+(declare shuffle-vector [[vector A] --> [vector A]])
+(declare shuffle-list [[list A] --> [list A]])
