@@ -31,3 +31,9 @@
 
 (define require-typed
   Name -> (require-mode (function reload-typed) Name))
+
+(declare reload [symbol --> symbol])
+(declare reload-typed [symbol --> symbol])
+(declare require-mode [[symbol --> symbol] --> [symbol --> symbol]])
+(declare require [symbol --> symbol])
+(declare require-typed [symbol --> symbol])
