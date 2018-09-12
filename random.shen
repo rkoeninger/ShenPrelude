@@ -1,6 +1,6 @@
-(set *seed*
-  doc "Current random seed."
-  (shen.mod (get-time unix) (* 32768 32768)))
+(set *seed* (shen.mod (get-time unix) (* 32768 32768)))
+
+(set-doc *seed* "Current random seed.")
 
 (define next-random
   doc "Returns the next random value based on the current value of *seed*."

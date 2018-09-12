@@ -1,18 +1,4 @@
-\\ TODO: emit the calls to set-doc instead of running them in macro
-
 (set *doc-index* [])
-
-(defmacro define-with-doc-macro
-  [define Name doc Doc | Rest] ->
-    (do
-      (set-doc Name Doc)
-      [define Name | Rest]))
-
-(defmacro set-with-doc-macro
-  [set Name doc Doc | Rest] ->
-    (do
-      (set-doc Name Doc)
-      [set Name | Rest]))
 
 (define doc
   Name -> (trap-error (get Name doc) (/. _ "n/a")))
@@ -23,22 +9,12 @@
       (set *doc-index* [[Name Content] | (value *doc-index*)])
       (put Name doc Content)))
 
-(define doc-prefix?
-  "" _ -> true
-  (@s Ch Ss) (@s Ch Ts) -> (doc-prefix? Ss Ts)
-  _ _ -> false)
-
-(define doc-matches?
-  _ "" -> false
-  S T -> true where (doc-prefix? S T)
-  S (@s _ T) -> (doc-matches? S T))
-
 (define find-doc-matches
   _ [] -> []
   "" _ -> []
   S [[Name Content] | Rest] ->
     [Name | (find-doc-matches S Rest)]
-    where (or (doc-matches? S (str Name)) (doc-matches? S Content))
+    where (or (internal.subs? S (str Name)) (internal.subs? S Content))
   S [_ | Rest] -> (find-doc-matches S Rest))
 
 (define search-doc
