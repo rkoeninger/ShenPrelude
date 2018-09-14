@@ -53,6 +53,7 @@
 (defmacro define-global-macro
   [define Name { Type } Value] ->
     [do
+      [push-tc -]
       [datatype (intern (cn (str Name) "-type"))
 
         ____________________
@@ -61,5 +62,6 @@
         (protect V) : Type;
         ____________________
         [set Name (protect V)] : Type;]
-      [internal.dset Name Value]
+      [set Name Value]
+      [pop-tc]
       Name])

@@ -1,6 +1,6 @@
 (load "require.shen")
-(require internals)
-(require macros)
+(require-untyped internals)
+(require-untyped macros)
 (require-typed docs)
 (require-typed strings)
 (require-typed random)
