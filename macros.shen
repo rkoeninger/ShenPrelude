@@ -1,6 +1,3 @@
-(defmacro when-macro
-  [when Cond IfTrue] -> [if Cond IfTrue []])
-
 (defmacro function-syntax-macro
   S -> [function (intern (internal.subs 2 (str S)))] where (internal.sympre? "#'" S))
 
@@ -16,20 +13,53 @@
   [thru X F | Fs] -> [thru (append F [X]) | Fs] where (cons? F)
   [thru X F | Fs] -> [thru [F X] | Fs])
 
-\\ TODO: emit the calls to set-doc instead of running them in macro
+(define internal.typeann
+  [type E T] -> [[E : T ;]]
+  E -> E)
+
+(define internal.condition
+  [and | Ps] -> (mapcan (function internal.typeann) Ps)
+  [or | Ps] -> (error "Dont' know how to or condition")
+  P -> (internal.typeann P))
+
+(define internal.consequent
+  [and | Qs] -> (mapcan (function internal.typeann) Qs)
+  [or | Qs] -> (error "Don't know how to or consequent")
+  Q -> (internal.typeann Q))
+
+(define internal.typerule
+  [if Ps Qs] ->
+    (mapcan
+      (/. Q (mapcan (/. P (append P [__] Q)) Ps))
+      (internal.consequent Qs))
+  R -> [__ R ;])
+
+(defmacro deftype-macro
+  [deftype Name | Rules] ->
+    [datatype Name | (mapcan (function internal.typerule) Rules)])
 
 (defmacro define-doc-macro
   [define Name doc Doc | Rest] ->
-    (do
-      (set-doc Name Doc)
-      [define Name | Rest]))
+    [do
+      [set-doc Name Doc]
+      [define Name | Rest]])
 
-(defmacro define-global-macro
+(defmacro define-global-doc-macro
   [define Name doc Doc { Type } Value] ->
     [do
-      [set Name Value]
       [set-doc Name Doc]
-      (let TypeName (symbol (make-string "~S-global" (str Name)))
-        [datatype TypeName
-                                     __ [value Name] : Type;
-          (protect SetValue) : Type; __ [set Name (protect SetValue)] : Type;])])
+      [define Name { Type } Value]])
+
+(defmacro define-global-macro
+  [define Name { Type } Value] ->
+    [do
+      [datatype (intern (cn (str Name) "-type"))
+
+        ____________________
+        [value Name] : Type;
+
+        (protect V) : Type;
+        ____________________
+        [set Name (protect V)] : Type;]
+      [internal.dset Name Value]
+      Name])

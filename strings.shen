@@ -1,9 +1,7 @@
 (define prefix?
   doc "Checks if second argument starts with the first."
   {string --> string --> boolean}
-  "" _ -> true
-  (@s Ch Ss) (@s Ch Ts) -> (prefix? Ss Ts)
-  _ _ -> false)
+  P S -> (internal.pre? P S))
 
 (define suffix?
   doc "Checks if second argument ends with the first."
@@ -15,9 +13,7 @@
 (define substring-from
   doc "Extracts substring from starting 0-based index."
   {number --> string --> string}
-  _ "" -> ""
-  I S -> S where (<= I 0)
-  I (@s _ S) -> (substring-from (- I 1) S))
+  I S -> (internal.subs I S))
 
 (define substring-to
   doc "Extracts substring up to 0-based index."

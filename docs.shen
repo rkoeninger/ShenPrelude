@@ -1,26 +1,39 @@
-(set *doc-index* [])
+(define *doc-index*
+  \\doc "Association list of symbol names to doc strings."
+  {(list (symbol * string))}
+  [])
 
 (define doc
+  \\doc "Returns doc string for symbol, or 'n/a' if there isn't one."
+  {symbol --> string}
   Name -> (trap-error (get Name doc) (/. _ "n/a")))
 
 (define set-doc
+  \\doc "Sets doc string for symbol."
+  {symbol --> string --> string}
   Name Content ->
     (do
-      (set *doc-index* [[Name Content] | (value *doc-index*)])
+      (set *doc-index* [(@p Name Content) | (value *doc-index*)])
       (put Name doc Content)))
 
 (define find-doc-matches
+  \\doc "Scans association list of symbols, doc strings looking for matches to search string."
+  {string --> (list (symbol * string)) --> (list symbol)}
   _ [] -> []
   "" _ -> []
-  S [[Name Content] | Rest] ->
+  S [(@p Name Content) | Rest] ->
     [Name | (find-doc-matches S Rest)]
     where (or (internal.subs? S (str Name)) (internal.subs? S Content))
   S [_ | Rest] -> (find-doc-matches S Rest))
 
 (define search-doc
+  \\doc "Searches for functions with doc strings similar to search string."
+  {string --> (list symbol)}
   S -> (find-doc-matches S (value *doc-index*)))
 
 (define info
+  \\doc "Returns human readable string with type, doc string, source for symbol."
+  {symbol --> string}
   Name ->
     (make-string "~%type: ~A~%doc:  ~A~%src:  ~A~%"
       (let TypeSig (shen.get-type Name)
@@ -30,10 +43,10 @@
       (doc Name)
       (trap-error (ps Name) (/. _ "n/a"))))
 
-(declare doc [symbol --> string])
-(declare set-doc [symbol --> [string --> string]])
-(declare search-doc [string --> [list symbol]])
-(declare info [symbol --> string])
+\\(declare doc [symbol --> string])
+\\(declare set-doc [symbol --> [string --> string]])
+\\(declare search-doc [string --> [list symbol]])
+\\(declare info [symbol --> string])
 
 (do
   \\ require
@@ -44,11 +57,11 @@
   (set-doc require-typed "Loads script with (tc +) if it has not been loaded.")
 
   \\ docs
-  (set-doc *doc-index* "Assoication list of symbol names to doc strings.")
-  (set-doc doc "Returns doc string for symbol, or 'n/a' if there isn't one.")
-  (set-doc set-doc "Sets doc string for symbol.")
-  (set-doc search-doc "Searches for functions with doc strings similar to search string.")
-  (set-doc info "Returns human readable string with type, doc string, source for symbol.")
+  \\(set-doc *doc-index* "Association list of symbol names to doc strings.")
+  \\(set-doc doc "Returns doc string for symbol, or 'n/a' if there isn't one.")
+  \\(set-doc set-doc "Sets doc string for symbol.")
+  \\(set-doc search-doc "Searches for functions with doc strings similar to search string.")
+  \\(set-doc info "Returns human readable string with type, doc string, source for symbol.")
 
   \\ kernel
   (set-doc absvector? "Returns true if argument is an absvector.")

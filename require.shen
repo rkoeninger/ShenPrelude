@@ -1,21 +1,25 @@
 (set *loaded* [])
 
+(define with-tc
+  Tc F ->
+    (let Prev (if (value shen.*tc*) + -)
+      (if (= Tc Prev)
+        (thaw F)
+        (do
+          (tc Tc)
+          (trap-error
+            (thaw F)
+            (/. E
+              (do
+                (tc Prev)
+                (simple-error (error-to-string E)))))
+          (tc Prev)))))
+
 (define reload
   Name -> (load (@s (str Name) ".shen")))
 
 (define reload-typed
-  Name ->
-    (let Tc (value shen.*tc*)
-         _  (tc +)
-         Result
-          (trap-error
-            (reload Name)
-            (/. E
-              (do
-                (tc (if Tc + -))
-                (simple-error (error-to-string E)))))
-         _ (tc (if Tc + -))
-      Result))
+  Name -> (with-tc + (freeze (reload Name))))
 
 (define require-mode
   F Name ->
@@ -32,6 +36,7 @@
 (define require-typed
   Name -> (require-mode (function reload-typed) Name))
 
+(declare with-tc [symbol --> [[--> A] --> A]])
 (declare reload [symbol --> symbol])
 (declare reload-typed [symbol --> symbol])
 (declare require-mode [[symbol --> symbol] --> [symbol --> symbol]])
