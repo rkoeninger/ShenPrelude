@@ -7,6 +7,9 @@
 (defmacro protect-syntax-macro
   S -> [protect (intern (internal.subs 2 (str S)))] where (internal.sympre? "~'" S))
 
+(defmacro intern-syntax-macro
+  S -> [intern (internal.subs 2 (str S))] where (internal.sympre? "@'" S))
+
 (defmacro thru-macro
   [thru] -> []
   [thru X] -> X
