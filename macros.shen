@@ -7,36 +7,30 @@
 (defmacro protect-syntax-macro
   S -> [protect (intern (internal.subs 2 (str S)))] where (internal.sympre? "~'" S))
 
+(defmacro intern-syntax-macro
+  S -> [intern (internal.subs 2 (str S))] where (internal.sympre? "@'" S))
+
 (defmacro thru-macro
   [thru] -> []
   [thru X] -> X
   [thru X F | Fs] -> [thru (append F [X]) | Fs] where (cons? F)
   [thru X F | Fs] -> [thru [F X] | Fs])
 
-(define internal.typeann
-  [type E T] -> [[E : T ;]]
-  E -> E)
+(define internal.label
+  [: X T] -> [X : T ;]
+  X -> [X ;])
 
-(define internal.condition
-  [and | Ps] -> (mapcan (function internal.typeann) Ps)
-  [or | Ps] -> (error "Dont' know how to or condition")
-  P -> (internal.typeann P))
-
-(define internal.consequent
-  [and | Qs] -> (mapcan (function internal.typeann) Qs)
-  [or | Qs] -> (error "Don't know how to or consequent")
-  Q -> (internal.typeann Q))
-
-(define internal.typerule
-  [if Ps Qs] ->
-    (mapcan
-      (/. Q (mapcan (/. P (append P [__] Q)) Ps))
-      (internal.consequent Qs))
-  R -> [__ R ;])
+(define internal.sequent
+  [if [and | Ps] Q] -> (append (mapcan (function internal.label) Ps) [__] (label Q))
+  [if [or  | Ps] Q] -> (mapcan (/. P (internal.sequent [if P Q])) Ps)
+  [if P [and | Qs]] -> (mapcan (/. Q (internal.sequent [if P Q])) Qs)
+  [if P [or  | Qs]] -> (append (internal.label P) [__] (mapcan (function internal.label) Qs))
+  [if P Q] -> (append (internal.label P) [__] (internal.label Q))
+  Q -> (append [__] (internal.label Q)))
 
 (defmacro deftype-macro
   [deftype Name | Rules] ->
-    [datatype Name | (mapcan (function internal.typerule) Rules)])
+    [datatype (intern (@s (str Name) "-type")) | (mapcan (function internal.sequent) Rules)])
 
 (defmacro define-doc-macro
   [define Name doc Doc | Rest] ->
