@@ -1,3 +1,6 @@
+(defmacro ???-macro
+  ??? -> [error "not implemented"])
+
 (defmacro function-syntax-macro
   S -> [function (intern (internal.subs 2 (str S)))] where (internal.sympre? "#'" S))
 
