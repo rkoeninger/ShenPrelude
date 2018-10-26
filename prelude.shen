@@ -8,3 +8,4 @@
 (require-typed functions)
 (require-typed lists)
 (require-untyped pv)
+(require-untyped memo)
