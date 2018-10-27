@@ -9,3 +9,6 @@
 (require-typed lists)
 (require-untyped pv)
 (require-untyped memo)
+(require-untyped match)
+(require-untyped aritycheck)
+(require-untyped maybe)
