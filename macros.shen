@@ -46,19 +46,3 @@
     [do
       [set-doc Name Doc]
       [define Name { Type } Value]])
-
-(defmacro define-global-macro
-  [define Name { Type } Value] ->
-    [do
-      [push-tc -]
-      [datatype (intern (cn (str Name) "-type"))
-
-        ____________________
-        [value Name] : Type;
-
-        (protect V) : Type;
-        ____________________
-        [set Name (protect V)] : Type;]
-      [set Name Value]
-      [pop-tc]
-      Name])

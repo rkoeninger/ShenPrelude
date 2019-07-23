@@ -56,17 +56,6 @@
   {number --> (list A) --> ((list A) * (list A))}
   N Xs -> (@p (take N Xs) (drop N Xs)))
 
-(define separate
-  doc "Splits list into two separate lists based on whether predicate returns true or false."
-  {(A --> boolean) --> (list A) --> ((list A) * (list A))}
-  F Xs ->
-    (map-both
-      #'reverse
-      (fold-left
-        (/. P X ((if (F X) #'map-fst #'map-snd) (prepend X) P))
-        (@p [] [])
-        Xs)))
-
 (define partition
   doc "Splits list into list of sublists, each no longer than given length."
   {number --> (list A) --> (list (list A))}
@@ -103,6 +92,17 @@
   {(B --> A --> A) --> A --> (list B) --> A}
   F X [Y | Ys] -> (F Y (fold-right F X Ys))
   _ X _ -> X)
+
+(define separate
+  doc "Splits list into two separate lists based on whether predicate returns true or false."
+  {(A --> boolean) --> (list A) --> ((list A) * (list A))}
+  F Xs ->
+    (map-both
+      #'reverse
+      (fold-left
+        (/. P X ((if (F X) #'map-fst #'map-snd) (prepend X) P))
+        (@p [] [])
+        Xs)))
 
 (define contains?
   doc "Returns true if any elements in list are equal to given key value."

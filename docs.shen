@@ -1,20 +1,15 @@
-(define *doc-index*
-  {(list (symbol * string))}
-  [])
+(set *doc-index* [])
 
 (define doc
-  {symbol --> string}
   Name -> (trap-error (get Name doc) (/. _ "n/a")))
 
 (define set-doc
-  {symbol --> string --> string}
   Name Content ->
     (do
       (set *doc-index* [(@p Name Content) | (value *doc-index*)])
       (put Name doc Content)))
 
 (define find-doc-matches
-  {string --> (list (symbol * string)) --> (list symbol)}
   _ [] -> []
   "" _ -> []
   S [(@p Name Content) | Rest] ->
@@ -23,11 +18,9 @@
   S [_ | Rest] -> (find-doc-matches S Rest))
 
 (define search-doc
-  {string --> (list symbol)}
   S -> (find-doc-matches S (value *doc-index*)))
 
 (define info
-  {symbol --> string}
   Name ->
     (make-string "~%type: ~A~%doc:  ~A~%src:  ~A~%"
       (let TypeSig (shen.get-type Name)
@@ -37,10 +30,10 @@
       (doc Name)
       (trap-error (ps Name) (/. _ "n/a"))))
 
-\\(declare doc [symbol --> string])
-\\(declare set-doc [symbol --> [string --> string]])
-\\(declare search-doc [string --> [list symbol]])
-\\(declare info [symbol --> string])
+(declare doc [symbol --> string])
+(declare set-doc [symbol --> [string --> string]])
+(declare search-doc [string --> [list symbol]])
+(declare info [symbol --> string])
 
 (do
   \\ require
