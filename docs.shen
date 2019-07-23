@@ -1,7 +1,10 @@
 (set *doc-index* [])
 
+(define internal.as-symbol
+  S -> (if (symbol? S) S (error "argument should be a symbol")))
+
 (define doc
-  Name -> (trap-error (get Name doc) (/. _ "n/a")))
+  Name -> (trap-error (get (internal.as-symbol Name) doc) (/. _ "n/a")))
 
 (define set-doc
   Name Content ->
@@ -20,20 +23,50 @@
 (define search-doc
   S -> (find-doc-matches S (value *doc-index*)))
 
-(define info
+(define type-of
   Name ->
-    (make-string "~%type: ~A~%doc:  ~A~%src:  ~A~%"
+    (do
+      (internal.as-symbol Name)
       (let TypeSig (shen.get-type Name)
         (if (= shen.skip TypeSig)
-          "n/a"
-          TypeSig))
-      (doc Name)
-      (trap-error (ps Name) (/. _ "n/a"))))
+          (fail)
+          TypeSig))))
+
+(define not=
+  X Y -> (not (= X Y)))
+
+(define fail?
+  X -> (= X shen.fail!))
+
+(define skip?
+  X -> (= X shen.skip))
+
+(define info
+  Name ->
+    (do
+      (internal.as-symbol Name)
+      (make-string "~%type: ~A~%doc:  ~A~%src:  ~A~%"
+        (let TypeSig (shen.get-type Name)
+          (if (fail? TypeSig) "n/a" TypeSig))
+        (doc Name)
+        (trap-error (ps Name) (/. _ "n/a")))))
 
 (declare doc [symbol --> string])
 (declare set-doc [symbol --> [string --> string]])
 (declare search-doc [string --> [list symbol]])
+(declare type-of [symbol --> unit])
+(declare fail? [A --> boolean])
+(declare skip? [A --> boolean])
+(declare not= [A --> B --> boolean])
 (declare info [symbol --> string])
+
+\\ kernel aliases
+(define int? X -> (integer? X))
+(declare int? [number --> boolean])
+(set-doc int? "Checks if number is an integer.")
+(define mod X Y -> (shen.mod X Y))
+(declare mod [number --> number --> number])
+(set-doc mod "Performs modulus operation.")
 
 (do
   \\ require
@@ -48,6 +81,10 @@
   (set-doc doc "Returns doc string for symbol, or 'n/a' if there isn't one.")
   (set-doc set-doc "Sets doc string for symbol.")
   (set-doc search-doc "Searches for functions with doc strings similar to search string.")
+  (set-doc type-of "Returns type-signature of function or (fail).")
+  (set-doc not= "Equivalent to (not (= X Y)).")
+  (set-doc fail? "Returns true if argument is the fail symbol.")
+  (set-doc skip? "Returns true if argument is the skip symbol.")
   (set-doc info "Returns human readable string with type, doc string, source for symbol.")
 
   \\ kernel

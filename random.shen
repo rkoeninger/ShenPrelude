@@ -22,6 +22,12 @@
         (vector-> V J X)
         V)))
 
+(define bubble-sort
+  doc "Bubble-sorts a slice of a vector."
+  F 1 _ V -> V
+  F N I V -> (bubble-sort F (- N 1) 1 V) where (= I (limit V))
+  F N I V -> (let J (+ 1 I) (bubble-sort F N J (if (F (<-vector V I) (<-vector V J)) V (vector-swap V I J)))))
+
 (define shuffle-vector
   doc "Randomizes elements in vector in place."
   V ->
@@ -38,5 +44,6 @@
 (declare next-random [--> number])
 (declare next-random-between [number --> number --> number])
 (declare vector-swap [[vector A] --> number --> number --> [vector A]])
+(declare bubble-sort [[A --> A --> boolean] --> number --> number --> [vector A] --> [vector A]])
 (declare shuffle-vector [[vector A] --> [vector A]])
 (declare shuffle-list [[list A] --> [list A]])

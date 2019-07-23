@@ -1,3 +1,10 @@
+(define join-strings
+  doc "Concatenates a list of strings interspersing a separator string."
+  {string --> (list string) --> string}
+  Sep []       -> ""
+  Sep [S]      -> S
+  Sep [S | Ss] -> (cn (cn S Sep) (join-strings Sep Ss)))
+
 (define prefix?
   doc "Checks if second argument starts with the first."
   {string --> string --> boolean}
@@ -27,11 +34,16 @@
   {number --> number --> string --> string}
   I J S -> (substring-to (- J I) (substring-from I S)))
 
+(define string-length-onto
+  doc "Adds string length onto given amount and returns."
+  {number --> string --> number}
+  N "" -> N
+  N (@s _ S) -> (string-length-onto (+ 1 N) S))
+
 (define string-length
   doc "Returns length of string."
   {string --> number}
-  "" -> 0
-  (@s _ S) -> (+ 1 (string-length S)))
+  S -> (string-length-onto 0 S))
 
 (define lower-case-1
   doc "Returns lower-case of given unit string."

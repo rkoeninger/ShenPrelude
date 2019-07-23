@@ -1,7 +1,7 @@
 (define complement
   doc "Returns new version of function with inverse result of given function."
   {(A --> boolean) --> A --> boolean}
-  F -> (/. X (not (F X))))
+  F X -> (not (F X)))
 
 (define any?
   doc "Returns true if predicate returns true for any elements in list."
@@ -217,3 +217,25 @@
     (let V (vector (length Xs))
          _ (fold-left (/. I X (do (vector-> V I X) (+ 1 I))) 1 Xs)
       V))
+
+\\ type error in rule 1
+\\(define floor
+\\  doc "Rounds down to nearest integer (only for positive numbers)."
+\\  {number --> number}
+\\  X -> (if (int? X) X (- X (mod X 1))))
+
+\\(define ceiling
+\\  doc "Rounds up to nearest integer (only for positive numbers)."
+\\  {number --> number}
+\\  X -> (if (int? X) X (+ 1 (- X (mod X 1)))))
+
+\\ type error in rule 1
+(define sort-vector
+  doc "Sorts the elements of a vector in place."
+  {(A --> A --> boolean) --> (vector A) --> (vector A)}
+  F V -> (bubble-sort F (limit V) 1 V))
+
+(define sort-list
+  doc "Sorts the elements of a list and returns a new list in sorted order."
+  {(A --> A --> boolean) --> (list A) --> (list A)}
+  F L -> (vector->list (sort-vector F (list->vector L))))
