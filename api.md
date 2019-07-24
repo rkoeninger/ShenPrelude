@@ -404,6 +404,14 @@
 
 Sets the maximum number of inferences the type checker will attempt.
 
+### `memo` : `(→ A) → (→ A)`
+
+Memoizes a 0-parameter continuation.
+
+### `memo-invoke`
+
+Executes and caches a memoized continuation.
+
 ### `mod` : `number → number → number`
 
 Performs modulus operation.
@@ -428,9 +436,13 @@
 
 Takes true/false and returns false/true.
 
-### `not=` : `A → B → boolean`
+### `not=` : `A → A → boolean`
 
 Equivalent to (not (= X Y)).
+
+### `not==` : `A → B → boolean`
+
+Equivalent to (not (== X Y)).
 
 ### `nth` : `number → (list A) → A`
 
