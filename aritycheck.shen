@@ -1,4 +1,4 @@
-(define aritycheck
+(define internal.aritycheck
   Name Arity [[Patts Action]] ->
     (do (aritycheck-action Action)
         (aritycheck-name Name Arity (length Patts)))
@@ -10,7 +10,7 @@
 
 
 
-(define pattern-counts
+(define internal.pattern-counts
   [] ->
     (let Counts (vector 8)
       (do
@@ -23,12 +23,6 @@
         (vector-> Counts (+ 1 Arity) (+ 1 (<-vector Counts (+ 1 Arity))))
         Counts)))
 
-(define max-of X Y -> X where (>= X Y) _ Y -> Y)
-
-(define vector->list V -> (vector->list-h V [] (limit V)))
-
-(define vector->list-h
-  V L 1 -> [(<-vector V 1) | L]
-  V L Index -> (vector->list-h V [(<-vector V Index) | L] (- Index 1)))
+(define internal.max-of X Y -> X where (>= X Y) _ Y -> Y)
 
 \\ (fold-left (function max-of) (fail) (vector->list (pattern-counts [])))
