@@ -1,21 +1,3 @@
-(define ws?
-  Ch -> (<= (string->n Ch) 32))
-
-(define trim-start
-  "" -> ""
-  (@s Ch S) -> (trim-start S) where (ws? Ch)
-  S -> S)
-
-(define trim-end
-  S -> (reverse (trim-start (reverse S))))
-
-(define trim
-  S -> (trim-end (trim-start S)))
-
-(define spaces
-  0 -> ""
-  D -> (@s "  " (spaces (- D 1))))
-
 (define track-state
   D Q "" -> (@p D Q)
   D Q (@s "c#34;" S) -> (track-state D (not Q) S)
@@ -32,7 +14,7 @@
          Line' (if Quote
                  (if Quote' Line (trim-end Line))
                  (cn
-                   (if (= "" (trim Line)) "" (spaces Depth))
+                   (if (= "" (trim Line)) "" (spaces (* 2 Depth)))
                    (if Quote' (trim-start Line) (trim Line))))
       [Line' | (indent-lines-h Depth' Quote' Lines)]))
 
@@ -51,11 +33,6 @@
 (define read-file-as-lines
   Path -> (split-lines (read-file-as-string Path)))
 
-(define join-lines
-  [] -> ""
-  [Line] -> Line
-  [Line | Lines] -> (cn Line (cn "c#13;c#10;" (join-lines Lines))))
-
 (define write-file-as-string
   Path String ->
     (let Stream (open Path out)
@@ -64,7 +41,7 @@
 
 (write-file-as-string
   "unmangled.shen"
-  (join-lines
+  (join-strings "c#13;c#10;"
     (indent-lines
       (split-lines
         (read-file-as-string "mangled.shen")))))

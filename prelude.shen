@@ -4,6 +4,7 @@
 (require-untyped docs)
 (require-untyped numbers_untyped)
 (require-typed numbers)
+(require-untyped strings_untyped)
 (require-typed strings)
 (require-untyped random)
 (require-typed tuples)

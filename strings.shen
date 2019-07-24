@@ -70,7 +70,6 @@
   (@s S U) (@s T V) -> (signum (- (string->n S) (string->n T))))
 
 (define index-of-plus
-  doc "Finds 0-based index of first occurrence of substring in string plus offset, -1 if not found."
   {number --> string --> string --> number}
   _ _ "" -> -1
   I S T  -> I where (prefix? S T)
@@ -109,3 +108,32 @@
   doc "Returns true if substring is contained by string."
   {string --> string --> boolean}
   S T -> (>= (index-of S T) 0))
+
+(define whitespace?
+  doc "Returns true if string is all whitespace."
+  {string --> boolean}
+  "" -> true
+  (@s Ch S) -> (and (<= (string->n Ch) 32) (whitespace? S)))
+
+(define trim-start
+  doc "Removes whitespace characters from beginning of string."
+  {string --> string}
+  "" -> ""
+  (@s Ch S) -> (trim-start S) where (whitespace? Ch)
+  S -> S)
+
+(define trim-end
+  doc "Removes whitespace characters from end of string."
+  {string --> string}
+  S -> (reverse-string (trim-start (reverse-string S))))
+
+(define trim
+  doc "Removes whitespace characters from beginning and end of string."
+  {string --> string}
+  S -> (trim-end (trim-start S)))
+
+(define spaces
+  doc "Returns a string of `N` spaces"
+  {number --> string}
+  0 -> ""
+  N -> (@s " " (spaces (- N 1))))
