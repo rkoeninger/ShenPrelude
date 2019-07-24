@@ -97,12 +97,26 @@
   {string --> string --> (list string)}
   Sep S -> (split-string-recur false Sep S))
 
+(define split-lines
+  doc "Splits a string into a list of lines, consider LF and CRLF line endings."
+  {symbol --> string --> (list string)}
+  lf   S -> (split-string "c#10;" S)
+  crlf S -> (split-string "c#13;c#10;" S)
+  _    _ -> (error "split-lines expects either 'lf or 'crlf as the first argument."))
+
 (define join-strings
   doc "Concatenates a list of strings interspersing a separator."
   {string --> (list string) --> string}
   Sep []       -> ""
   Sep [S]      -> S
   Sep [S | Ss] -> (cn (cn S Sep) (join-strings Sep Ss)))
+
+(define join-lines
+  doc "Joins lines with either `lf` or `crlf` endings."
+  {symbol --> (list string) --> string}
+  lf   Ss -> (join-strings "c#10;" Ss)
+  crlf Ss -> (join-strings "c#13;c#10;" Ss)
+  _    _  -> (error "join-lines expects either 'lf or 'crlf as the first argument."))
 
 (define contains-substring?
   doc "Returns true if substring is contained by string."
