@@ -213,16 +213,6 @@
          _ (fold-left (/. I X (do (vector-> V I X) (+ 1 I))) 1 Xs)
       V))
 
-(define floor
-  doc "Rounds down to nearest integer (only for positive numbers)."
-  {number --> number}
-  X -> (if (int? X) X (- X (mod X 1))))
-
-(define ceiling
-  doc "Rounds up to nearest integer (only for positive numbers)."
-  {number --> number}
-  X -> (if (int? X) X (+ 1 (- X (mod X 1)))))
-
 (define sort-vector
   doc "Sorts the elements of a vector in place."
   {(A --> A --> boolean) --> (vector A) --> (vector A)}

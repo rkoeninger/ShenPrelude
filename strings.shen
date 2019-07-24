@@ -5,22 +5,6 @@
   Sep [S]      -> S
   Sep [S | Ss] -> (cn (cn S Sep) (join-strings Sep Ss)))
 
-(define signum
-  doc "Returns -1 for negative number, 1 for positive, 0 for 0."
-  {number --> number}
-  X -> -1 where (< X 0)
-  X ->  1 where (> X 0)
-  _ ->  0)
-
-(define string-compare
-  doc "Returns -1 if first string comes first, 1 if it comes later, 0 if they are equal."
-  {string --> string --> number}
-  "" "" -> 0
-  "" _  -> -1
-  _  "" -> 1
-  (@s S U) (@s S V) -> (string-compare U V)
-  (@s S U) (@s T V) -> (signum (- (string->n S) (string->n T))))
-
 (define prefix?
   doc "Checks if second argument starts with the first."
   {string --> string --> boolean}
@@ -82,3 +66,12 @@
   {string --> string}
   "" -> ""
   (@s S Ss) -> (@s (upper-case-1 S) (upper-case Ss)))
+
+(define string-compare
+  doc "Returns -1 if first string comes first, 1 if it comes later, 0 if they are equal."
+  {string --> string --> number}
+  "" "" -> 0
+  "" _  -> -1
+  _  "" -> 1
+  (@s S U) (@s S V) -> (string-compare U V)
+  (@s S U) (@s T V) -> (signum (- (string->n S) (string->n T))))
