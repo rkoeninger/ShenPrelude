@@ -1,10 +1,3 @@
-(define join-strings
-  doc "Concatenates a list of strings interspersing a separator string."
-  {string --> (list string) --> string}
-  Sep []       -> ""
-  Sep [S]      -> S
-  Sep [S | Ss] -> (cn (cn S Sep) (join-strings Sep Ss)))
-
 (define prefix?
   doc "Checks if second argument starts with the first."
   {string --> string --> boolean}
@@ -75,3 +68,44 @@
   _  "" -> 1
   (@s S U) (@s S V) -> (string-compare U V)
   (@s S U) (@s T V) -> (signum (- (string->n S) (string->n T))))
+
+(define index-of-plus
+  doc "Finds 0-based index of first occurrence of substring in string plus offset, -1 if not found."
+  {number --> string --> string --> number}
+  _ _ "" -> -1
+  I S T  -> I where (prefix? S T)
+  I S T  -> (index-of-plus (+ 1 I) S (tlstr T)))
+
+(define index-of
+  doc "Finds 0-based index of first occurrence of substring in string, -1 if not found."
+  {string --> string --> number}
+  S T -> (index-of-plus 0 S T))
+
+(define split-string-recur
+  {boolean --> string --> string --> (list string)}
+  AfterSep Sep S ->
+    (if (and (not AfterSep) (= "" S))
+      []
+      (let Index (index-of Sep S)
+        (if (< Index 0)
+          [S]
+          (let PostIndex (+ Index (string-length Sep))
+               Rest (substring-from PostIndex S)
+            [(substring-to Index S) | (split-string-recur true Sep Rest)])))))
+
+(define split-string
+  doc "Splits a string into a list of substrings on separator. Retains empty strings."
+  {string --> string --> (list string)}
+  Sep S -> (split-string-recur false Sep S))
+
+(define join-strings
+  doc "Concatenates a list of strings interspersing a separator."
+  {string --> (list string) --> string}
+  Sep []       -> ""
+  Sep [S]      -> S
+  Sep [S | Ss] -> (cn (cn S Sep) (join-strings Sep Ss)))
+
+(define contains-substring?
+  doc "Returns true if substring is contained by string."
+  {string --> string --> boolean}
+  S T -> (>= (index-of S T) 0))

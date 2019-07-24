@@ -300,6 +300,14 @@
 
 Makes all datatypes except the given visible to the type checker.
 
+### `index-of` : `string → string → number`
+
+Finds first occurance of substring in string and returns index, -1 if not found.
+
+### `index-of-from` : `number → string → string → number`
+
+Finds first occurance of substring in string starting from 0-based index and returns index, -1 if not found.
+
 ### `inferences` : `→ number`
 
 Returns the number of type checking inferences that have been performed so far.
@@ -334,7 +342,7 @@
 
 ### `join-strings` : `string → (list string) → string`
 
-Concatenates a list of strings interspersing a separator string.
+Concatenates a list of strings interspersing a separator.
 
 ### `kill` : `→ A`
 
@@ -651,6 +659,14 @@
 ### `split-at` : `number → (list A) → ((list A) * (list A))`
 
 Splits list into two sublists at given index.
+
+### `split-string` : `string → string → (list string)`
+
+Splits a string into a list of substrings on separator.
+
+### `split-string-from` : `number → string → string → (list string)`
+
+Splits a string into a list of substrings on separator string from index.
 
 ### `spy` : `symbol → boolean`
 
