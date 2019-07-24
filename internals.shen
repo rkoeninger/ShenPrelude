@@ -23,4 +23,4 @@
 (declare internal.sympre? [string --> [symbol --> boolean]])
 (declare internal.subs? [string --> [string --> boolean]])
 (declare internal.subs [number --> [string --> string]])
-(declare internal.dset [symbol --> A --> boolean])
+(declare internal.dset [symbol --> [A --> boolean]])
