@@ -6,9 +6,10 @@
   X -> X)
 
 (define format-type-sub
-  Type -> (cn "(" (cn (join-strings " " (map (function format-type-sub) Type)) ")")) where (cons? Type)
-  -->  -> "→"
-  Type -> (str Type))
+  Type     -> (cn "(" (cn (join-strings " " (map (function format-type-sub) Type)) ")")) where (cons? Type)
+  -->      -> "→"
+  shen.==> -> "⇨"
+  Type     -> (str Type))
 
 (define format-type
   Type -> (join-strings " " (map (function format-type-sub) Type)) where (cons? Type)

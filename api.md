@@ -28,7 +28,7 @@
 
 Returns true if first number is less than the second.
 
-### `<!>` : `(list A) shen.==> (list A)`
+### `<!>` : `(list A) ⇨ (list A)`
 
 Unconditional parser that always succeeds, consuming all of the input, yielding remaining input.
 
@@ -40,7 +40,7 @@
 
 Returns true if first number is less than or equal to the second.
 
-### `<e>` : `(list A) shen.==> (list B)`
+### `<e>` : `(list A) ⇨ (list B)`
 
 Empty parser that always succeeds, consuming none of the input, yielding empty list of results.
 
@@ -124,7 +124,7 @@
 
 Concat's two strings into one.
 
-### `compile` : `(A shen.==> B) → A → (A → B) → B`
+### `compile` : `(A ⇨ B) → A → (A → B) → B`
 
 Takes yacc grammar and 
 
