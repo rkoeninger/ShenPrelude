@@ -656,6 +656,26 @@
 
 Turns the type checker debugger on/off with +/-.
 
+### `stack` : `→ (stack A)`
+
+Creates a new mutable stack.
+
+### `stack-pop` : `(stack A) → A`
+
+Pops value off of mutable stack, raises error if empty.
+
+### `stack-push` : `(stack A) → A → (stack A)`
+
+Pushes a value onto mutable stack, returns stack.
+
+### `stack-size` : `(stack A) → number`
+
+Returns size of mutable stack.
+
+### `stack?` : `A → boolean`
+
+Returns true if argument is a mutable stack.
+
 ### `step` : `symbol → boolean`
 
 Turns debugging on/off with +/-.

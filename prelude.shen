@@ -9,6 +9,7 @@
 (require-typed tuples)
 (require-typed functions)
 (require-typed lists)
+(require-untyped stack)
 (require-untyped pv)
 (require-untyped memo)
 (require-untyped match)

@@ -20,7 +20,7 @@
     (let GenName (gensym match)
       (do
         (eval [define GenName | More])
-        (if (shen.list? Keys)
+        (if (list? Keys)
           [GenName | Keys]
           [GenName Keys]))))
 
