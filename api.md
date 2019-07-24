@@ -136,6 +136,10 @@
 
 Returns true if argument is a cons.
 
+### `contains-substring?` : `string → string → boolean`
+
+Returns true if substring is contained by string.
+
 ### `contains?` : `A → (list A) → boolean`
 
 Returns true if any elements in list are equal to given key value.
@@ -302,11 +306,11 @@
 
 ### `index-of` : `string → string → number`
 
-Finds first occurance of substring in string and returns index, -1 if not found.
+Finds 0-based index of first occurrence of substring in string, -1 if not found.
 
-### `index-of-from` : `number → string → string → number`
+### `index-of-plus` : `number → string → string → number`
 
-Finds first occurance of substring in string starting from 0-based index and returns index, -1 if not found.
+Finds 0-based index of first occurrence of substring in string plus offset, -1 if not found.
 
 ### `inferences` : `→ number`
 
@@ -662,11 +666,7 @@
 
 ### `split-string` : `string → string → (list string)`
 
-Splits a string into a list of substrings on separator.
-
-### `split-string-from` : `number → string → string → (list string)`
-
-Splits a string into a list of substrings on separator string from index.
+Splits a string into a list of substrings on separator. Retains empty strings.
 
 ### `spy` : `symbol → boolean`
 
