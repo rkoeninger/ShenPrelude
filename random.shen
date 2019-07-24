@@ -1,7 +1,7 @@
 (set *seed* (shen.mod (get-time unix) (* 32768 32768)))
 
 (define next-random
-  doc "Returns the next random value based on the current value of *seed*."
+  doc "Returns the next random value based on the current value of `*seed*`."
   ->
   (let Next (shen.mod (* 5137 (+ &'*seed* 10101)) (* 32768 32768))
     (do
@@ -42,8 +42,8 @@
   Xs -> (vector->list (shuffle-vector (list->vector Xs))))
 
 (declare next-random [--> number])
-(declare next-random-between [number --> number --> number])
-(declare vector-swap [[vector A] --> number --> number --> [vector A]])
-(declare bubble-sort [[A --> A --> boolean] --> number --> number --> [vector A] --> [vector A]])
+(declare next-random-between [number --> [number --> number]])
+(declare vector-swap [[vector A] --> [number --> [number --> [vector A]]]])
+(declare bubble-sort [[A --> [A --> boolean]] --> [number --> [number --> [[vector A] --> [vector A]]]]])
 (declare shuffle-vector [[vector A] --> [vector A]])
 (declare shuffle-list [[list A] --> [list A]])
