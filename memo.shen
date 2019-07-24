@@ -1,5 +1,4 @@
 (define memo-invoke
-  doc "Executes and caches a memoized continuation."
   Thunk ->
     (if (<-vector Thunk 2)
       (<-vector Thunk 3)

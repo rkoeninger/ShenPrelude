@@ -80,10 +80,6 @@ Returns true if both arguments are true; doesn't evaluate second argument if fir
 
 Returns true if predicate returns true for any elements in list.
 
-### `app`
-
-Internal function used in output macro.
-
 ### `append` : `(list A) → (list A) → (list A)`
 
 Concat's two lists into one.
@@ -420,10 +416,6 @@ Sets the maximum number of inferences the type checker will attempt.
 
 Memoizes a 0-parameter continuation.
 
-### `memo-invoke`
-
-Executes and caches a memoized continuation.
-
 ### `mod` : `number → number → number`
 
 Performs modulus operation.
@@ -523,10 +515,6 @@ Checks if second argument starts with the first.
 ### `prepend` : `A → (list A) → (list A)`
 
 Adds value to beginning of list.
-
-### `prhush`
-
-Prints a string to an output stream if `*hush*` is false.
 
 ### `print` : `A → A`
 
