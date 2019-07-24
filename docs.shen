@@ -35,6 +35,9 @@
 (define not=
   X Y -> (not (= X Y)))
 
+(define not==
+  X Y -> (not (= X Y)))
+
 (define fail?
   X -> (= X shen.fail!))
 
@@ -57,16 +60,9 @@
 (declare type-of [symbol --> unit])
 (declare fail? [A --> boolean])
 (declare skip? [A --> boolean])
-(declare not= [A --> [B --> boolean]])
+(declare not= [A --> [A --> boolean]])
+(declare not== [A --> [B --> boolean]])
 (declare info [symbol --> string])
-
-\\ kernel aliases
-(define int? X -> (integer? X))
-(declare int? [number --> boolean])
-(set-doc int? "Checks if number is an integer.")
-(define mod X Y -> (shen.mod X Y))
-(declare mod [number --> [number --> number]])
-(set-doc mod "Performs modulus operation.")
 
 (do
   \\ require
@@ -83,6 +79,7 @@
   (set-doc search-doc "Searches for functions with doc strings similar to search string.")
   (set-doc type-of "Returns type-signature of function or (fail).")
   (set-doc not= "Equivalent to (not (= X Y)).")
+  (set-doc not== "Equivalent to (not (== X Y)).")
   (set-doc fail? "Returns true if argument is the fail symbol.")
   (set-doc skip? "Returns true if argument is the skip symbol.")
   (set-doc info "Returns human readable string with type, doc string, source for symbol.")
@@ -223,4 +220,4 @@
   (set-doc * "Multiplies two numbers.")
   (set-doc == "Returns true if two values are equal, which can be different static types.")
 
-  docs-written)
+  kernel-docs)
