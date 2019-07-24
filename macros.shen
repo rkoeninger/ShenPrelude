@@ -33,7 +33,7 @@
 
 (defmacro deftype-macro
   [deftype Name | Rules] ->
-    [datatype (intern (@s (str Name) "-type")) | (mapcan (function internal.sequent) Rules)])
+    [datatype (concat Name "-type") | (mapcan (function internal.sequent) Rules)])
 
 (defmacro define-doc-macro
   [define Name doc Doc | Rest] ->
