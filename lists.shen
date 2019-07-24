@@ -203,7 +203,7 @@
 (define vector->list
   doc "Makes a new list out of a vector."
   {(vector A) --> (list A)}
-  V -> (fold-left (/. Xs I [(<-vector V I) | Xs]) [] (range (limit V))))
+  V -> (fold-right (/. I Xs [(<-vector V I) | Xs]) [] (range (limit V))))
 
 (define list->vector
   doc "Makes a new vector out of a list."
