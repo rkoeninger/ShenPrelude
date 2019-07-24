@@ -24,4 +24,5 @@
 (let NameDocs (sort-list (/. X Y (>= 0 (string-compare (str (fst X)) (str (fst Y))))) (value *doc-index*))
      Entries  (flat-map (/. D (api-entry (fst D) (snd D) (type-of (fst D)))) NameDocs)
      Markdown (join-strings "c#10;c#13;c#10;c#13;" ["# Shen Prelude API Docs" | Entries])
-  (write-to-file "api.md" Markdown))
+     _        (write-to-file "api.md" Markdown)
+  docs-written)
