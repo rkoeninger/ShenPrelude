@@ -21,17 +21,8 @@
 (define indent-lines
   Lines -> (indent-lines-h 0 false Lines))
 
-(define split-lines-h
-  Line Lines "" -> (reverse [Line | Lines])
-  Line Lines (@s "c#10;" S) -> (split-lines-h "" [Line | Lines] S)
-  Line Lines (@s "c#13;" S) -> (split-lines-h Line Lines S)
-  Line Lines (@s Ch S) -> (split-lines-h (cn Line Ch) Lines S))
-
-(define split-lines
-  S -> (split-lines-h "" [] S))
-
 (define read-file-as-lines
-  Path -> (split-lines (read-file-as-string Path)))
+  Path -> (map #'trim (split-lines lf (read-file-as-string Path))))
 
 (define write-file-as-string
   Path String ->
@@ -41,7 +32,7 @@
 
 (write-file-as-string
   "unmangled.shen"
-  (join-strings "c#13;c#10;"
+  (join-strings crlf
     (indent-lines
       (split-lines
         (read-file-as-string "mangled.shen")))))
