@@ -1,4 +1,5 @@
-(define memo-h
+(define memo-invoke
+  doc "Executes and caches a memoized continuation."
   Thunk ->
     (if (<-vector Thunk 2)
       (<-vector Thunk 3)
@@ -9,10 +10,13 @@
           Result))))
 
 (define memo
+  doc "Memoizes a 0-parameter continuation."
   Continuation ->
     (let Thunk (vector 3)
       (do
         (vector-> Thunk 1 Continuation)
         (vector-> Thunk 2 false)
         (freeze
-          (memo-h Thunk)))))
+          (memo-invoke Thunk)))))
+
+(declare memo [[--> A] --> [--> A]])
