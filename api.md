@@ -1,914 +1,942 @@
 # Shen Prelude API Docs
 
-### `*` : `number → number → number`
+### `*` : `number → number → number`
 
-Multiplies two numbers.
+Multiplies two numbers.
 
-### `*doc-index*`
+### `*doc-index*`
 
-Association list of symbol names to doc strings.
+Association list of symbol names to doc strings.
 
-### `*loaded*`
+### `*loaded*`
 
-List of scripts that have been loaded.
+List of scripts that have been loaded.
 
-### `+` : `number → number → number`
+### `+` : `number → number → number`
 
-Adds two numbers.
+Adds two numbers.
 
-### `-` : `number → number → number`
+### `-` : `number → number → number`
 
-Subtracts second number from first.
+Subtracts second number from first.
 
-### `/` : `number → number → number`
+### `/` : `number → number → number`
 
-Divides first number by second.
+Divides first number by second.
 
-### `<` : `number → number → boolean`
+### `<` : `number → number → boolean`
 
-Returns true if first number is less than the second.
+Returns true if first number is less than the second.
 
-### `<!>` : `(list A) ⇨ (list A)`
+### `<!>` : `(list A) ⇨ (list A)`
 
-Unconditional parser that always succeeds, consuming all of the input, yielding remaining input.
+Unconditional parser that always succeeds, consuming all of the input, yielding remaining input.
 
-### `<-vector` : `(vector A) → number → A`
+### `<-vector` : `(vector A) → number → A`
 
-Gets element in vector at given 1-based index.
+Gets element in vector at given 1-based index.
 
-### `<=` : `number → number → boolean`
+### `<=` : `number → number → boolean`
 
-Returns true if first number is less than or equal to the second.
+Returns true if first number is less than or equal to the second.
 
-### `<e>` : `(list A) ⇨ (list B)`
+### `<e>` : `(list A) ⇨ (list B)`
 
-Empty parser that always succeeds, consuming none of the input, yielding empty list of results.
+Empty parser that always succeeds, consuming none of the input, yielding empty list of results.
 
-### `=` : `A → A → boolean`
+### `=` : `A → A → boolean`
 
-Returns true if two values are equal, which must be the same static type.
+Returns true if two values are equal, which must be the same static type.
 
-### `==` : `A → B → boolean`
+### `==` : `A → B → boolean`
 
-Returns true if two values are equal, which can be different static types.
+Returns true if two values are equal, which can be different static types.
 
-### `>` : `number → number → boolean`
+### `>` : `number → number → boolean`
 
-Returns true if first number is greater than the second.
+Returns true if first number is greater than the second.
 
-### `>=` : `number → number → boolean`
+### `>=` : `number → number → boolean`
 
-Returns true if first number is greater than or equal to the second.
+Returns true if first number is greater than or equal to the second.
 
-### `absvector?` : `A → boolean`
+### `absvector?` : `A → boolean`
 
-Returns true if argument is an absvector.
+Returns true if argument is an absvector.
 
-### `adjoin` : `A → (list A) → (list A)`
+### `adjoin` : `A → (list A) → (list A)`
 
-Prepends value to head of list if not already in list.
+Prepends value to head of list if not already in list.
 
-### `all?` : `(A → boolean) → (list A) → boolean`
+### `all?` : `(A → boolean) → (list A) → boolean`
 
-Returns true if predicate returns true for all elements in list.
+Returns true if predicate returns true for all elements in list.
 
-### `and` : `boolean → boolean → boolean`
+### `and` : `boolean → boolean → boolean`
 
-Returns true if both arguments are true; doesn't evaluate second argument if first is false.
+Returns true if both arguments are true; doesn't evaluate second argument if first is false.
 
-### `any?` : `(A → boolean) → (list A) → boolean`
+### `any?` : `(A → boolean) → (list A) → boolean`
 
-Returns true if predicate returns true for any elements in list.
+Returns true if predicate returns true for any elements in list.
 
-### `app`
+### `app`
 
-Internal function used in output macro.
+Internal function used in output macro.
 
-### `append` : `(list A) → (list A) → (list A)`
+### `append` : `(list A) → (list A) → (list A)`
 
-Concat's two lists into one.
+Concat's two lists into one.
 
-### `arity` : `A → number`
+### `arity` : `A → number`
 
-Returns arity of given function name or -1 if there is not such function.
+Returns arity of given function name or -1 if there is not such function.
 
-### `assoc` : `A → (list (list A)) → (list A)`
+### `assoc` : `A → (list (list A)) → (list A)`
 
-Returns pair in association list with given key value.
+Returns pair in association list with given key value.
 
-### `boolean?` : `A → boolean`
+### `boolean?` : `A → boolean`
 
-Returns true if argument is a boolean.
+Returns true if argument is a boolean.
 
-### `bound?` : `symbol → boolean`
+### `bound?` : `symbol → boolean`
 
-Returns true if symbol is bound to a value.
+Returns true if symbol is bound to a value.
 
-### `bubble-sort` : `(A → A → boolean) → number → number → (vector A) → (vector A)`
+### `bubble-sort` : `(A → A → boolean) → number → number → (vector A) → (vector A)`
 
-Bubble-sorts a slice of a vector.
+Bubble-sorts a slice of a vector.
 
-### `cd` : `string → string`
+### `cd` : `string → string`
 
-Changes working directory.
+Changes working directory.
 
-### `ceiling` : `number → number`
+### `ceiling` : `number → number`
 
-Rounds up to nearest integer (only for positive numbers).
+Rounds up to nearest integer (only for positive numbers).
 
-### `close` : `(stream A) → (list B)`
+### `close` : `(stream A) → (list B)`
 
-Closes stream, returns empty list.
+Closes stream, returns empty list.
 
-### `cn` : `string → string → string`
+### `cn` : `string → string → string`
 
-Concat's two strings into one.
+Concat's two strings into one.
 
-### `compile` : `(A ⇨ B) → A → (A → B) → B`
+### `compile` : `(A ⇨ B) → A → (A → B) → B`
 
-Takes yacc grammar and 
+Takes yacc grammar and 
 
-### `complement` : `(A → boolean) → A → boolean`
+### `complement` : `(A → boolean) → A → boolean`
 
-Returns new version of function with inverse result of given function.
+Returns new version of function with inverse result of given function.
 
-### `cons?` : `A → boolean`
+### `cons?` : `A → boolean`
 
-Returns true if argument is a cons.
+Returns true if argument is a cons.
 
-### `contains-substring?` : `string → string → boolean`
+### `contains-substring?` : `string → string → boolean`
 
-Returns true if substring is contained by string.
+Returns true if substring is contained by string.
 
-### `contains?` : `A → (list A) → boolean`
+### `contains?` : `A → (list A) → boolean`
 
-Returns true if any elements in list are equal to given key value.
+Returns true if any elements in list are equal to given key value.
 
-### `cross-join` : `(list A) → (list B) → (list (A * B))`
+### `cross-join` : `(list A) → (list B) → (list (A * B))`
 
-Builds list of every combination of values in two lists as tuples.
+Builds list of every combination of values in two lists as tuples.
 
-### `cross-join-with` : `(A → B → C) → (list A) → (list B) → (list C)`
+### `cross-join-with` : `(A → B → C) → (list A) → (list B) → (list C)`
 
-Builds list of every combination of values in two lists using given function.
+Builds list of every combination of values in two lists using given function.
 
-### `curry` : `((A * B) → C) → A → B → C`
+### `curry` : `((A * B) → C) → A → B → C`
 
-Converts function that takes tuple to function that takes arguments individually.
+Converts function that takes tuple to function that takes arguments individually.
 
-### `destroy` : `(A → B) → symbol`
+### `destroy` : `(A → B) → symbol`
 
-Erases given function.
+Erases given function.
 
-### `difference` : `(list A) → (list A) → (list A)`
+### `difference` : `(list A) → (list A) → (list A)`
 
-Returns list of values that are in first list but not second.
+Returns list of values that are in first list but not second.
 
-### `distinct` : `(list A) → (list A)`
+### `distinct` : `(list A) → (list A)`
 
-Returns copy of list with duplicates removed.
+Returns copy of list with duplicates removed.
 
-### `do` : `A → B → B`
+### `do` : `A → B → B`
 
-Returns result of last expression, used to group side-effecting expressions.
+Returns result of last expression, used to group side-effecting expressions.
 
-### `doc` : `symbol → string`
+### `doc` : `symbol → string`
 
-Returns doc string for symbol, or 'n/a' if there isn't one.
+Returns doc string for symbol, or 'n/a' if there isn't one.
 
-### `drop` : `number → (list A) → (list A)`
+### `drop` : `number → (list A) → (list A)`
 
-Returns all but the first n elements in list.
+Returns all but the first n elements in list.
 
-### `drop-while` : `(A → boolean) → (list A) → (list A)`
+### `drop-while` : `(A → boolean) → (list A) → (list A)`
 
-Returns list remaining elements after dropping consecutive leading elements so long as given predicate returns true for them.
+Returns list remaining elements after dropping consecutive leading elements so long as given predicate returns true for them.
 
-### `element?` : `A → (list A) → boolean`
+### `element?` : `A → (list A) → boolean`
 
-Returns true if value is in list.
+Returns true if value is in list.
 
-### `empty?` : `A → boolean`
+### `empty?` : `A → boolean`
 
-Returns true if argument is an empty list.
+Returns true if argument is an empty list.
 
-### `enable-type-theory` : `symbol → boolean`
+### `enable-type-theory` : `symbol → boolean`
 
-Takes + or - to turn default type system on or off.
+Takes + or - to turn default type system on or off.
 
-### `error-to-string` : `exception → string`
+### `error-to-string` : `exception → string`
 
-Returns exception's message.
+Returns exception's message.
 
-### `explode` : `A → (list string)`
+### `explode` : `A → (list string)`
 
-Converts value to string and returns list of unit strings.
+Converts value to string and returns list of unit strings.
 
-### `external` : `symbol → (list symbol)`
+### `external` : `symbol → (list symbol)`
 
-Returns list of symbols exported from package.
+Returns list of symbols exported from package.
 
-### `fail` : `→ symbol`
+### `fail` : `→ symbol`
 
-Returns the failure symbol.
+Returns the failure symbol.
 
-### `fail-if` : `(symbol → boolean) → symbol → symbol`
+### `fail-if` : `(symbol → boolean) → symbol → symbol`
 
-Returns the fail symbol if the function returns true for the given symbol, returns symbol argument otherwise.
+Returns the fail symbol if the function returns true for the given symbol, returns symbol argument otherwise.
 
-### `fail?` : `A → boolean`
+### `fail?` : `A → boolean`
 
-Returns true if argument is the fail symbol.
+Returns true if argument is the fail symbol.
 
-### `filter` : `(A → boolean) → (list A) → (list A)`
+### `filter` : `(A → boolean) → (list A) → (list A)`
 
-Returns copy of list with only elements for which predicate returns true.
+Returns copy of list with only elements for which predicate returns true.
 
-### `fix` : `(A → A) → A → A`
+### `fix` : `(A → A) → A → A`
 
-Repeatedly applies function until it returns the same value it was given.
+Repeatedly applies function until it returns the same value it was given.
 
-### `flat-map` : `(A → (list B)) → (list A) → (list B)`
+### `flat-map` : `(A → (list B)) → (list A) → (list B)`
 
-Applies function to each value in list and concat's results into one long list.
+Applies function to each value in list and concat's results into one long list.
 
-### `flatten` : `(list (list A)) → (list A)`
+### `flatten` : `(list (list A)) → (list A)`
 
-Converts a list of lists into one long list.
+Converts a list of lists into one long list.
 
-### `floor` : `number → number`
+### `floor` : `number → number`
 
-Rounds down to nearest integer (only for positive numbers).
+Rounds down to nearest integer (only for positive numbers).
 
-### `fold-left` : `(A → B → A) → A → (list B) → A`
+### `fold-left` : `(A → B → A) → A → (list B) → A`
 
-Combines values in list from left to right using given function.
+Combines values in list from left to right using given function.
 
-### `fold-right` : `(B → A → A) → A → (list B) → A`
+### `fold-right` : `(B → A → A) → A → (list B) → A`
 
-Combines values in list from right to left using given function.
+Combines values in list from right to left using given function.
 
-### `freeze` : `A → (lazy A)`
+### `freeze` : `A → (lazy A)`
 
-Returns a function that will evaluate expression.
+Returns a function that will evaluate expression.
 
-### `fst` : `(A * B) → A`
+### `fst` : `(A * B) → A`
 
-Returns the first value in a 2-tuple.
+Returns the first value in a 2-tuple.
 
-### `function` : `(A → B) → A → B`
+### `function` : `(A → B) → A → B`
 
-Returns function associated with symbol.
+Returns function associated with symbol.
 
-### `function?` : `A → boolean`
+### `function?` : `A → boolean`
 
-Returns true if argument is a function.
+Returns true if argument is a function.
 
-### `gensym` : `symbol → symbol`
+### `gensym` : `symbol → symbol`
 
-Returns unique variable based on given symbol.
+Returns unique variable based on given symbol.
 
-### `get-time` : `symbol → number`
+### `get-time` : `symbol → number`
 
-Returns the time, unix timestamp when passed 'unix, time since start when passed 'run.
+Returns the time, unix timestamp when passed 'unix, time since start when passed 'run.
 
-### `hash` : `A → number → number`
+### `hash` : `A → number → number`
 
-Computes hash for given value, starting from given seed.
+Computes hash for given value, starting from given seed.
 
-### `hdstr` : `string → string`
+### `hdstr` : `string → string`
 
-Returns first unit string in string.
+Returns first unit string in string.
 
-### `hdv` : `(vector A) → A`
+### `hdv` : `(vector A) → A`
 
-Returns first value in vector.
+Returns first value in vector.
 
-### `head` : `(list A) → A`
+### `head` : `(list A) → A`
 
-Returns first value in list.
+Returns first value in list.
 
-### `if` : `boolean → A → A → A`
+### `if` : `boolean → A → A → A`
 
-Evaluates condition, evaluates and returns second expression if true, third expression if false.
+Evaluates condition, evaluates and returns second expression if true, third expression if false.
 
-### `implementation` : `→ string`
+### `implementation` : `→ string`
 
-Returns name of language implementation/platform.
+Returns name of language implementation/platform.
 
-### `include` : `(list symbol) → (list symbol)`
+### `include` : `(list symbol) → (list symbol)`
 
-Makes datatypes visible to the type checker.
+Makes datatypes visible to the type checker.
 
-### `include-all-but` : `(list symbol) → (list symbol)`
+### `include-all-but` : `(list symbol) → (list symbol)`
 
-Makes all datatypes except the given visible to the type checker.
+Makes all datatypes except the given visible to the type checker.
 
-### `index-of` : `string → string → number`
+### `index-of` : `string → string → number`
 
-Finds 0-based index of first occurrence of substring in string, -1 if not found.
+Finds 0-based index of first occurrence of substring in string, -1 if not found.
 
-### `index-of-plus` : `number → string → string → number`
+### `inferences` : `→ number`
 
-Finds 0-based index of first occurrence of substring in string plus offset, -1 if not found.
+Returns the number of type checking inferences that have been performed so far.
 
-### `inferences` : `→ number`
+### `info` : `symbol → string`
 
-Returns the number of type checking inferences that have been performed so far.
+Returns human readable string with type, doc string, source for symbol.
 
-### `info` : `symbol → string`
+### `int?` : `number → boolean`
 
-Returns human readable string with type, doc string, source for symbol.
+Checks if number is an integer.
 
-### `int?` : `number → boolean`
+### `integer?` : `A → boolean`
 
-Checks if number is an integer.
+Returns true if value is a number and an integer.
 
-### `integer?` : `A → boolean`
+### `internal` : `symbol → (list symbol)`
 
-Returns true if value is a number and an integer.
+Gets the symbols internal to a package.
 
-### `internal` : `symbol → (list symbol)`
+### `interpose` : `A → (list A) → (list A)`
 
-Gets the symbols internal to a package.
+Inserts value between each value in list.
 
-### `interpose` : `A → (list A) → (list A)`
+### `intersection` : `(list A) → (list A) → (list A)`
 
-Inserts value between each value in list.
+Returns list containing only elements contained in both lists.
 
-### `intersection` : `(list A) → (list A) → (list A)`
+### `it` : `→ string`
 
-Returns list containing only elements contained in both lists.
+Returns expression that contains the call to (it).
 
-### `it` : `→ string`
+### `join-lines` : `symbol → (list string) → string`
 
-Returns expression that contains the call to (it).
+Joins lines with either `lf` or `crlf` endings.
 
-### `join-strings` : `string → (list string) → string`
+### `join-strings` : `string → (list string) → string`
 
-Concatenates a list of strings interspersing a separator.
+Concatenates a list of strings interspersing a separator.
 
-### `kill` : `→ A`
+### `kill` : `→ A`
 
-Terminates YACC parsing.
+Terminates YACC parsing.
 
-### `language` : `→ string`
+### `language` : `→ string`
 
-Returns name of language this port is implemented in.
+Returns name of language this port is implemented in.
 
-### `length` : `(list A) → number`
+### `length` : `(list A) → number`
 
-Returns length of list.
+Returns length of list.
 
-### `limit` : `(vector A) → number`
+### `limit` : `(vector A) → number`
 
-Returns length of vector.
+Returns length of vector.
 
-### `list->vector` : `(list A) → (vector A)`
+### `list->vector` : `(list A) → (vector A)`
 
-Makes a new vector out of a list.
+Makes a new vector out of a list.
 
-### `load` : `string → symbol`
+### `load` : `string → symbol`
 
-Reads and evaluates code at path relative to `*home-directory*`.
+Reads and evaluates code at path relative to `*home-directory*`.
 
-### `lower-case` : `string → string`
+### `lower-case` : `string → string`
 
-Returns copy of string with all characters converted to lower-case.
+Returns copy of string with all characters converted to lower-case.
 
-### `lower-case-1` : `string → string`
+### `lower-case-1` : `string → string`
 
-Returns lower-case of given unit string.
+Returns lower-case of given unit string.
 
-### `map` : `(A → B) → (list A) → (list B)`
+### `map` : `(A → B) → (list A) → (list B)`
 
-Applies function to each element in list, returning list of results.
+Applies function to each element in list, returning list of results.
 
-### `map-both` : `(A → B) → (A * A) → (B * B)`
+### `map-both` : `(A → B) → (A * A) → (B * B)`
 
-Uses given function to transform both values in a 2-tuple.
+Uses given function to transform both values in a 2-tuple.
 
-### `map-fst` : `(A → C) → (A * B) → (C * B)`
+### `map-fst` : `(A → C) → (A * B) → (C * B)`
 
-Uses given function to transform the first value in a 2-tuple.
+Uses given function to transform the first value in a 2-tuple.
 
-### `map-snd` : `(B → C) → (A * B) → (A * C)`
+### `map-snd` : `(B → C) → (A * B) → (A * C)`
 
-Uses given function to transform the second value in a 2-tuple.
+Uses given function to transform the second value in a 2-tuple.
 
-### `mapcan` : `(A → (list B)) → (list A) → (list B)`
+### `mapcan` : `(A → (list B)) → (list A) → (list B)`
 
-Applies function to each element in list, concat'ing results into one long list.
+Applies function to each element in list, concat'ing results into one long list.
 
-### `max` : `(list number) → number`
+### `max` : `(list number) → number`
 
-Returns maximum number in list.
+Returns maximum number in list.
 
-### `max-by` : `(A → number) → (list A) → A`
+### `max-by` : `(A → number) → (list A) → A`
 
-Returns value in list for which given function returns maximum value.
+Returns value in list for which given function returns maximum value.
 
-### `max-compare-by` : `(A → A → boolean) → (list A) → A`
+### `max-compare-by` : `(A → A → boolean) → (list A) → A`
 
-Returns maximum value in list comparing using given function.
+Returns maximum value in list comparing using given function.
 
-### `maxinferences` : `number → number`
+### `maxinferences` : `number → number`
 
-Sets the maximum number of inferences the type checker will attempt.
+Sets the maximum number of inferences the type checker will attempt.
 
-### `memo` : `(→ A) → (→ A)`
+### `memo` : `(→ A) → (→ A)`
 
-Memoizes a 0-parameter continuation.
+Memoizes a 0-parameter continuation.
 
-### `memo-invoke`
+### `memo-invoke`
 
-Executes and caches a memoized continuation.
+Executes and caches a memoized continuation.
 
-### `mod` : `number → number → number`
+### `mod` : `number → number → number`
 
-Performs modulus operation.
+Performs modulus operation.
 
-### `n->string` : `number → string`
+### `n->string` : `number → string`
 
-Returns unit string for character code point.
+Returns unit string for character code point.
 
-### `next-random` : `→ number`
+### `next-random` : `→ number`
 
-Returns the next random value based on the current value of `*seed*`.
+Returns the next random value based on the current value of `*seed*`.
 
-### `next-random-between` : `number → number → number`
+### `next-random-between` : `number → number → number`
 
-Returns the next random value within the given range.
+Returns the next random value within the given range.
 
-### `nl` : `number → number`
+### `nl` : `number → number`
 
-Writes a number of new lines to the standard output stream.
+Writes a number of new lines to the standard output stream.
 
-### `not` : `boolean → boolean`
+### `not` : `boolean → boolean`
 
-Takes true/false and returns false/true.
+Takes true/false and returns false/true.
 
-### `not=` : `A → A → boolean`
+### `not=` : `A → A → boolean`
 
-Equivalent to (not (= X Y)).
+Equivalent to (not (= X Y)).
 
-### `not==` : `A → B → boolean`
+### `not==` : `A → B → boolean`
 
-Equivalent to (not (== X Y)).
+Equivalent to (not (== X Y)).
 
-### `nth` : `number → (list A) → A`
+### `nth` : `number → (list A) → A`
 
-Returns the element in a list at given 1-based index.
+Returns the element in a list at given 1-based index.
 
-### `number?` : `A → boolean`
+### `number?` : `A → boolean`
 
-Returns true if argument is a number.
+Returns true if argument is a number.
 
-### `occurrences` : `A → B → number`
+### `occurrences` : `A → B → number`
 
-Returns the number of times a value appears in a tree.
+Returns the number of times a value appears in a tree.
 
-### `occurs-check` : `symbol → boolean`
+### `occurs-check` : `symbol → boolean`
 
-Turns prolog occurs checking on/off with +/-.
+Turns prolog occurs checking on/off with +/-.
 
-### `optimise` : `symbol → boolean`
+### `optimise` : `symbol → boolean`
 
-Turns Shen -> KL optimisation on/off with +/-.
+Turns Shen -> KL optimisation on/off with +/-.
 
-### `or` : `boolean → boolean → boolean`
+### `or` : `boolean → boolean → boolean`
 
-Returns true if either argument is true; doesn't evaluate second argument if first is true.
+Returns true if either argument is true; doesn't evaluate second argument if first is true.
 
-### `os` : `→ string`
+### `os` : `→ string`
 
-Returns name of current running operating system.
+Returns name of current running operating system.
 
-### `package?` : `symbol → boolean`
+### `package?` : `symbol → boolean`
 
-Returns true if argument is the name of a defined package.
+Returns true if argument is the name of a defined package.
 
-### `partition` : `number → (list A) → (list (list A))`
+### `partition` : `number → (list A) → (list (list A))`
 
-Splits list into list of sublists, each no longer than given length.
+Splits list into list of sublists, each no longer than given length.
 
-### `port` : `→ string`
+### `port` : `→ string`
 
-Returns the version of this port of Shen.
+Returns the version of this port of Shen.
 
-### `porters` : `→ string`
+### `porters` : `→ string`
 
-Returns the name(s) of the author(s) of this port of Shen.
+Returns the name(s) of the author(s) of this port of Shen.
 
-### `pos` : `string → number → string`
+### `pos` : `string → number → string`
 
-Returns the unit string at the given 0-based index in a string.
+Returns the unit string at the given 0-based index in a string.
 
-### `pr` : `string → (stream out) → string`
+### `pr` : `string → (stream out) → string`
 
-Writes string to output stream.
+Writes string to output stream.
 
-### `preclude` : `(list symbol) → (list symbol)`
+### `preclude` : `(list symbol) → (list symbol)`
 
-Hides datatypes from the type checker.
+Hides datatypes from the type checker.
 
-### `preclude-all-but` : `(list symbol) → (list symbol)`
+### `preclude-all-but` : `(list symbol) → (list symbol)`
 
-Hides all datatypes except the given from the type checker.
+Hides all datatypes except the given from the type checker.
 
-### `prefix?` : `string → string → boolean`
+### `prefix?` : `string → string → boolean`
 
-Checks if second argument starts with the first.
+Checks if second argument starts with the first.
 
-### `prepend` : `A → (list A) → (list A)`
+### `prepend` : `A → (list A) → (list A)`
 
-Adds value to beginning of list.
+Adds value to beginning of list.
 
-### `prhush`
+### `prhush`
 
-Prints a string to an output stream if `*hush*` is false.
+Prints a string to an output stream if `*hush*` is false.
 
-### `print` : `A → A`
+### `print` : `A → A`
 
-Writes value to standard output stream.
+Writes value to standard output stream.
 
-### `profile` : `(A → B) → A → B`
+### `profile` : `(A → B) → A → B`
 
-Prepares verion of function given by name to include performance profiling logging.
+Prepares verion of function given by name to include performance profiling logging.
 
-### `profile-results` : `(A → B) → ((A → B) * number)`
+### `profile-results` : `(A → B) → ((A → B) * number)`
 
-Gets the run time of running the given function.
+Gets the run time of running the given function.
 
-### `protect` : `symbol → symbol`
+### `protect` : `symbol → symbol`
 
-Used by parser to identify code that should not be interpreted. Passes through argument.
+Used by parser to identify code that should not be interpreted. Passes through argument.
 
-### `ps` : `symbol → (list unit)`
+### `ps` : `symbol → (list unit)`
 
-Returns the compiled KLambda code for the given function.
+Returns the compiled KLambda code for the given function.
 
-### `range` : `number → (list number)`
+### `range` : `number → (list number)`
 
-Returns list of numbers from 1 up to and including the given number.
+Returns list of numbers from 1 up to and including the given number.
 
-### `read` : `(stream in) → unit`
+### `read` : `(stream in) → unit`
 
-Reads and parses an element of Shen code from given input stream.
+Reads and parses an element of Shen code from given input stream.
 
-### `read-byte` : `(stream in) → number`
+### `read-byte` : `(stream in) → number`
 
-Reads single byte from given input stream.
+Reads single byte from given input stream.
 
-### `read-file` : `string → (list unit)`
+### `read-file` : `string → (list unit)`
 
-Reads all elements of Shen code from given file relative to `*home-directory*`.
+Reads all elements of Shen code from given file relative to `*home-directory*`.
 
-### `read-file-as-bytelist` : `string → (list number)`
+### `read-file-as-bytelist` : `string → (list number)`
 
-Reads contents of file relative to `*home-directory*` as list of bytes.
+Reads contents of file relative to `*home-directory*` as list of bytes.
 
-### `read-file-as-string` : `string → string`
+### `read-file-as-string` : `string → string`
 
-Reads contents of file relative to `*home-directory*` as string.
+Reads contents of file relative to `*home-directory*` as string.
 
-### `read-from-string` : `string → (list unit)`
+### `read-from-string` : `string → (list unit)`
 
-Reads all elements of Shen code from given string.
+Reads all elements of Shen code from given string.
 
-### `release` : `→ string`
+### `release` : `→ string`
 
-Returns version of language implementation/platform.
+Returns version of language implementation/platform.
 
-### `reload` : `symbol → symbol`
+### `reload` : `symbol → symbol`
 
-Loads script whether it has been loaded or not.
+Loads script whether it has been loaded or not.
 
-### `reload-typed` : `symbol → symbol`
+### `reload-typed` : `symbol → symbol`
 
-Loads script with (tc +) whether it has been loaded or not.
+Loads script with (tc +) whether it has been loaded or not.
 
-### `remove` : `A → (list A) → (list A)`
+### `remove` : `A → (list A) → (list A)`
 
-Removes all occurances of value from list.
+Removes all occurances of value from list.
 
-### `repeat` : `number → A → (list A)`
+### `repeat` : `number → A → (list A)`
 
-Builds list by repeating the same value N times.
+Builds list by repeating the same value N times.
 
-### `repeatedly` : `number → (→ A) → (list A)`
+### `repeatedly` : `number → (→ A) → (list A)`
 
-Builds list by invoking the same function N times.
+Builds list by invoking the same function N times.
 
-### `require` : `symbol → symbol`
+### `require` : `symbol → symbol`
 
-Loads script if it has not been loaded.
+Loads script if it has not been loaded.
 
-### `require-typed` : `symbol → symbol`
+### `require-typed` : `symbol → symbol`
 
-Loads script with (tc +) if it has not been loaded.
+Loads script with (tc +) if it has not been loaded.
 
-### `reverse` : `(list A) → (list A)`
+### `reverse` : `(list A) → (list A)`
 
-Returns new list with same elements in reverse order.
+Returns new list with same elements in reverse order.
 
-### `search-doc` : `string → (list symbol)`
+### `reverse-string` : `string → string`
 
-Searches for functions with doc strings similar to search string.
+Returns string with same characters in reverse order.
 
-### `separate` : `(A → boolean) → (list A) → ((list A) * (list A))`
+### `search-doc` : `string → (list symbol)`
 
-Splits list into two separate lists based on whether predicate returns true or false.
+Searches for functions with doc strings similar to search string.
 
-### `set-doc` : `symbol → string → string`
+### `separate` : `(A → boolean) → (list A) → ((list A) * (list A))`
 
-Sets doc string for symbol.
+Splits list into two separate lists based on whether predicate returns true or false.
 
-### `shuffle-list` : `(list A) → (list A)`
+### `set-doc` : `symbol → string → string`
 
-Randomizes elements in cons list, returning a new list.
+Sets doc string for symbol.
 
-### `shuffle-vector` : `(vector A) → (vector A)`
+### `shuffle-list` : `(list A) → (list A)`
 
-Randomizes elements in vector in place.
+Randomizes elements in cons list, returning a new list.
 
-### `signum` : `number → number`
+### `shuffle-vector` : `(vector A) → (vector A)`
 
-Returns -1 for negative number, 1 for positive, 0 for 0.
+Randomizes elements in vector in place.
 
-### `simple-error` : `string → A`
+### `signum` : `number → number`
 
-Raises exception with given error message.
+Returns -1 for negative number, 1 for positive, 0 for 0.
 
-### `skip?` : `A → boolean`
+### `simple-error` : `string → A`
 
-Returns true if argument is the skip symbol.
+Raises exception with given error message.
 
-### `snd` : `(A * B) → B`
+### `skip?` : `A → boolean`
 
-Returns the first value in a 2-tuple.
+Returns true if argument is the skip symbol.
 
-### `sort-list` : `(A → A → boolean) → (list A) → (list A)`
+### `snd` : `(A * B) → B`
 
-Sorts the elements of a list and returns a new list in sorted order.
+Returns the first value in a 2-tuple.
 
-### `sort-vector` : `(A → A → boolean) → (vector A) → (vector A)`
+### `sort-list` : `(A → A → boolean) → (list A) → (list A)`
 
-Sorts the elements of a vector in place.
+Sorts the elements of a list and returns a new list in sorted order.
 
-### `specialise` : `symbol → symbol`
+### `sort-vector` : `(A → A → boolean) → (vector A) → (vector A)`
 
-Sets function as having specialised type.
+Sorts the elements of a vector in place.
 
-### `split-at` : `number → (list A) → ((list A) * (list A))`
+### `spaces` : `number → string`
 
-Splits list into two sublists at given index.
+Returns a string of `N` spaces
 
-### `split-string` : `string → string → (list string)`
+### `specialise` : `symbol → symbol`
 
-Splits a string into a list of substrings on separator. Retains empty strings.
+Sets function as having specialised type.
 
-### `spy` : `symbol → boolean`
+### `split-at` : `number → (list A) → ((list A) * (list A))`
 
-Turns the type checker debugger on/off with +/-.
+Splits list into two sublists at given index.
 
-### `stack` : `→ (stack A)`
+### `split-lines` : `symbol → string → (list string)`
 
-Creates a new mutable stack.
+Splits a string into a list of lines, consider LF and CRLF line endings.
 
-### `stack-pop` : `(stack A) → A`
+### `split-string` : `string → string → (list string)`
 
-Pops value off of mutable stack, raises error if empty.
+Splits a string into a list of substrings on separator. Retains empty strings.
 
-### `stack-push` : `(stack A) → A → (stack A)`
+### `spy` : `symbol → boolean`
 
-Pushes a value onto mutable stack, returns stack.
+Turns the type checker debugger on/off with +/-.
 
-### `stack-size` : `(stack A) → number`
+### `stack` : `→ (stack A)`
 
-Returns size of mutable stack.
+Creates a new mutable stack.
 
-### `stack?` : `A → boolean`
+### `stack-pop` : `(stack A) → A`
 
-Returns true if argument is a mutable stack.
+Pops value off of mutable stack, raises error if empty.
 
-### `step` : `symbol → boolean`
+### `stack-push` : `(stack A) → A → (stack A)`
 
-Turns debugging on/off with +/-.
+Pushes a value onto mutable stack, returns stack.
 
-### `sterror` : `→ (stream out)`
+### `stack-size` : `(stack A) → number`
 
-Returns standard error stream.
+Returns size of mutable stack.
 
-### `stinput` : `→ (stream in)`
+### `stack?` : `A → boolean`
 
-Returns standard input stream.
+Returns true if argument is a mutable stack.
 
-### `stoutput` : `→ (stream out)`
+### `step` : `symbol → boolean`
 
-Returns standard output stream.
+Turns debugging on/off with +/-.
 
-### `str` : `A → string`
+### `sterror` : `→ (stream out)`
 
-Converts value to a string.
+Returns standard error stream.
 
-### `string->n` : `string → number`
+### `stinput` : `→ (stream in)`
 
-Converts unit string to character code point.
+Returns standard input stream.
 
-### `string->symbol` : `string → symbol`
+### `stoutput` : `→ (stream out)`
 
-Returns a symbol named after string.
+Returns standard output stream.
 
-### `string-compare` : `string → string → number`
+### `str` : `A → string`
 
-Returns -1 if first string comes first, 1 if it comes later, 0 if they are equal.
+Converts value to a string.
 
-### `string-length` : `string → number`
+### `string->n` : `string → number`
 
-Returns length of string.
+Converts unit string to character code point.
 
-### `string-length-onto` : `number → string → number`
+### `string->symbol` : `string → symbol`
 
-Adds string length onto given amount and returns.
+Returns a symbol named after string.
 
-### `string?` : `A → boolean`
+### `string-compare` : `string → string → number`
 
-Returns true if argument is a string.
+Returns -1 if first string comes first, 1 if it comes later, 0 if they are equal.
 
-### `substring` : `number → number → string → string`
+### `string-length` : `string → number`
 
-Extracts between starting and ending 0-based indicies.
+Returns length of string.
 
-### `substring-from` : `number → string → string`
+### `string-length-onto` : `number → string → number`
 
-Extracts substring from starting 0-based index.
+Adds string length onto given amount and returns.
 
-### `substring-to` : `number → string → string`
+### `string?` : `A → boolean`
 
-Extracts substring up to 0-based index.
+Returns true if argument is a string.
 
-### `suffix` : `A → (list A) → (list A)`
+### `substring` : `number → number → string → string`
 
-Adds value to end of list.
+Extracts between starting and ending 0-based indicies.
 
-### `suffix?` : `string → string → boolean`
+### `substring-from` : `number → string → string`
 
-Checks if second argument ends with the first.
+Extracts substring from starting 0-based index.
 
-### `sum` : `(list number) → number`
+### `substring-to` : `number → string → string`
 
-Adds all numbers in list, 0 for empty list.
+Extracts substring up to 0-based index.
 
-### `symbol?` : `A → boolean`
+### `suffix` : `A → (list A) → (list A)`
 
-Returns true if argument is a symbol.
+Adds value to end of list.
 
-### `systemf` : `symbol → symbol`
+### `suffix?` : `string → string → boolean`
 
-Declares function as a system function that cannot be overwritten.
+Checks if second argument ends with the first.
 
-### `tail` : `(list A) → (list A)`
+### `sum` : `(list number) → number`
 
-Returns list containing all but the first element of a list.
+Adds all numbers in list, 0 for empty list.
 
-### `take` : `number → (list A) → (list A)`
+### `symbol?` : `A → boolean`
 
-Returns first n elements in list.
+Returns true if argument is a symbol.
 
-### `take-onto` : `number → (list A) → (list A) → (list A)`
+### `systemf` : `symbol → symbol`
 
-Copies first n elements from list onto other list.
+Declares function as a system function that cannot be overwritten.
 
-### `take-while` : `(A → boolean) → (list A) → (list A)`
+### `tail` : `(list A) → (list A)`
 
-Returns list of consecutive leading elements so long as given predicate returns true for them.
+Returns list containing all but the first element of a list.
 
-### `take-while-onto` : `(A → boolean) → (list A) → (list A) → (list A)`
+### `take` : `number → (list A) → (list A)`
 
-Copies elements from list onto other list so long as given predicate returns true for them.
+Returns first n elements in list.
 
-### `tc` : `symbol → boolean`
+### `take-onto` : `number → (list A) → (list A) → (list A)`
 
-Turns type checking on/off with +/-.
+Copies first n elements from list onto other list.
 
-### `tc?` : `→ boolean`
+### `take-while` : `(A → boolean) → (list A) → (list A)`
 
-Returns true if type checking is enabled, false otherwise.
+Returns list of consecutive leading elements so long as given predicate returns true for them.
 
-### `thaw` : `(lazy A) → A`
+### `take-while-onto` : `(A → boolean) → (list A) → (list A) → (list A)`
 
-Calls a zero-argument function, as created by freeze.
+Copies elements from list onto other list so long as given predicate returns true for them.
 
-### `tlstr` : `string → string`
+### `tc` : `symbol → boolean`
 
-Returns string containing all but the first unit string of string.
+Turns type checking on/off with +/-.
 
-### `tlv` : `(vector A) → (vector A)`
+### `tc?` : `→ boolean`
 
-Returns a vector containing all but the first element of input vector.
+Returns true if type checking is enabled, false otherwise.
 
-### `track` : `symbol → symbol`
+### `thaw` : `(lazy A) → A`
 
-Sets function as being tracked by debugger.
+Calls a zero-argument function, as created by freeze.
 
-### `trap-error` : `A → (exception → A) → A`
+### `tlstr` : `string → string`
 
-Evaluates first expression and if exception is raised, evaluates second argument and applies it to exception.
+Returns string containing all but the first unit string of string.
 
-### `tuple?` : `A → boolean`
+### `tlv` : `(vector A) → (vector A)`
 
-Returns true if argument is a tuple.
+Returns a vector containing all but the first element of input vector.
 
-### `type-of` : `symbol → unit`
+### `track` : `symbol → symbol`
 
-Returns type-signature of function or (fail).
+Sets function as being tracked by debugger.
 
-### `uncurry` : `(A → B → C) → (A * B) → C`
+### `trap-error` : `A → (exception → A) → A`
 
-Converts function that takes arguments individually to function that takes tuple.
+Evaluates first expression and if exception is raised, evaluates second argument and applies it to exception.
 
-### `undefmacro` : `symbol → symbol`
+### `trim` : `string → string`
 
-Unregisters macro by name.
+Removes whitespace characters from beginning and end of string.
 
-### `unfold` : `(lazy (list A)) → (list A)`
+### `trim-end` : `string → string`
 
-Builds list by repeatedly calling the given function until it returns an empty list.
+Removes whitespace characters from end of string.
 
-### `unfold-onto` : `(list A) → (lazy (list A)) → (list A)`
+### `trim-start` : `string → string`
 
-Repeatedly calls given function until it returns empty list, prepending results onto given list.
+Removes whitespace characters from beginning of string.
 
-### `union` : `(list A) → (list A) → (list A)`
+### `tuple?` : `A → boolean`
 
-Returns list that contains all the elements in both given lists, excluding duplicates.
+Returns true if argument is a tuple.
 
-### `unprofile` : `(A → B) → A → B`
+### `type-of` : `symbol → unit`
 
-Restores original version of function before it was profiled.
+Returns type-signature of function or (fail).
 
-### `unspecialise` : `symbol → symbol`
+### `uncurry` : `(A → B → C) → (A * B) → C`
 
-Resets type specialisation of function.
+Converts function that takes arguments individually to function that takes tuple.
 
-### `untrack` : `symbol → symbol`
+### `undefmacro` : `symbol → symbol`
 
-Resets function as not being tracked by debugger.
+Unregisters macro by name.
 
-### `upper-case` : `string → string`
+### `unfold` : `(lazy (list A)) → (list A)`
 
-Returns copy of string with all characters converted to upper-case.
+Builds list by repeatedly calling the given function until it returns an empty list.
 
-### `upper-case-1` : `string → string`
+### `unfold-onto` : `(list A) → (lazy (list A)) → (list A)`
 
-Returns upper-case of given unit string.
+Repeatedly calls given function until it returns empty list, prepending results onto given list.
 
-### `variable?` : `A → boolean`
+### `union` : `(list A) → (list A) → (list A)`
 
-Returns true if symbol could be a variable.
+Returns list that contains all the elements in both given lists, excluding duplicates.
 
-### `vector` : `number → (vector A)`
+### `unprofile` : `(A → B) → A → B`
 
-Creates new vector of given length.
+Restores original version of function before it was profiled.
 
-### `vector->` : `(vector A) → number → A → (vector A)`
+### `unspecialise` : `symbol → symbol`
 
-Sets element in vector at given 1-based index.
+Resets type specialisation of function.
 
-### `vector->list` : `(vector A) → (list A)`
+### `untrack` : `symbol → symbol`
 
-Makes a new list out of a vector.
+Resets function as not being tracked by debugger.
 
-### `vector-swap` : `(vector A) → number → number → (vector A)`
+### `upper-case` : `string → string`
 
-Swaps two elements in given vector at following indicies.
+Returns copy of string with all characters converted to upper-case.
 
-### `vector?` : `A → boolean`
+### `upper-case-1` : `string → string`
 
-Returns true if given value is a vector (not just an absvector).
+Returns upper-case of given unit string.
 
-### `version` : `→ string`
+### `variable?` : `A → boolean`
 
-Returns version of Shen.
+Returns true if symbol could be a variable.
 
-### `write-byte` : `number → (stream out) → number`
+### `vector` : `number → (vector A)`
 
-Writes a byte to a stream, returning the byte.
+Creates new vector of given length.
 
-### `write-to-file` : `string → A → A`
+### `vector->` : `(vector A) → number → A → (vector A)`
 
-Converts value to string and writes to file.
+Sets element in vector at given 1-based index.
 
-### `y-or-n?` : `string → boolean`
+### `vector->list` : `(vector A) → (list A)`
 
-Shows yes or no prompt with given message and returns true if user answers yes.
+Makes a new list out of a vector.
 
-### `zip` : `(list A) → (list B) → (list (A * B))`
+### `vector-swap` : `(vector A) → number → number → (vector A)`
 
-Lines up two lists and combines each pair of values into tuple in resulting list.
+Swaps two elements in given vector at following indicies.
 
-### `zip-with` : `(A → B → C) → (list A) → (list B) → (list C)`
+### `vector?` : `A → boolean`
 
-Lines up two lists and combines each pair of values into value in resulting list using given function.
+Returns true if given value is a vector (not just an absvector).
+
+### `version` : `→ string`
+
+Returns version of Shen.
+
+### `whitespace?` : `string → boolean`
+
+Returns true if string is all whitespace.
+
+### `write-byte` : `number → (stream out) → number`
+
+Writes a byte to a stream, returning the byte.
+
+### `write-to-file` : `string → A → A`
+
+Converts value to string and writes to file.
+
+### `y-or-n?` : `string → boolean`
+
+Shows yes or no prompt with given message and returns true if user answers yes.
+
+### `zip` : `(list A) → (list B) → (list (A * B))`
+
+Lines up two lists and combines each pair of values into tuple in resulting list.
+
+### `zip-with` : `(A → B → C) → (list A) → (list B) → (list C)`
+
+Lines up two lists and combines each pair of values into value in resulting list using given function.
 
