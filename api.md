@@ -412,6 +412,18 @@ Returns maximum value in list comparing using given function.
 
 Sets the maximum number of inferences the type checker will attempt.
 
+### `maybe` : `boolean → A → (maybe A)`
+
+Maybe.
+
+### `maybe-map` : `(A → B) → (maybe A) → (maybe B)`
+
+Apply function if something.
+
+### `maybe?` : `A → boolean`
+
+Maybe?
+
 ### `memo` : `(→ A) → (→ A)`
 
 Memoizes a 0-parameter continuation.
@@ -439,6 +451,14 @@ Returns the next random boolean based on the current value of `*seed*`.
 ### `nl` : `number → number`
 
 Writes a number of new lines to the standard output stream.
+
+### `none` : `→ (maybe A)`
+
+Maybe nothing.
+
+### `none?` : `A → boolean`
+
+Maybe nothing?
 
 ### `not` : `boolean → boolean`
 
@@ -475,6 +495,10 @@ Turns Shen -> KL optimisation on/off with +/-.
 ### `or` : `boolean → boolean → boolean`
 
 Returns true if either argument is true; doesn't evaluate second argument if first is true.
+
+### `or-else` : `A → (maybe A) → A`
+
+Get the something or default value.
 
 ### `os` : `→ string`
 
@@ -643,6 +667,14 @@ Returns true if argument is the skip symbol.
 ### `snd` : `(A * B) → B`
 
 Returns the first value in a 2-tuple.
+
+### `some` : `A → (maybe A)`
+
+Maybe something.
+
+### `some?` : `A → boolean`
+
+Maybe something?
 
 ### `sort-list` : `(A → A → boolean) → (list A) → (list A)`
 
@@ -871,6 +903,10 @@ Resets type specialisation of function.
 ### `untrack` : `symbol → symbol`
 
 Resets function as not being tracked by debugger.
+
+### `unwrap` : `(maybe A) → A`
+
+Get the something. Error if nothing.
 
 ### `upper-case` : `string → string`
 
