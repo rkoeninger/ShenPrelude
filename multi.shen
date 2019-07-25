@@ -3,11 +3,15 @@
 \\ Uncomment example at bottom to test.
 
 (define make-multi
+  doc "Declares a new multi-method."
+  {symbol --> (A --> K) --> unit}
   Name Selector ->
     (let Multi (@v Name Selector (shen.dict 32) <>)
       (put Name multi Multi)))
 
 (define call-multi
+  doc "Invokes a 1-parameter multi-method."
+  {symbol --> A --> B}
   Name Arg ->
     (let Multi    (get Name multi)
          Selector (<-vector Multi 2)
@@ -17,6 +21,8 @@
       (Body Arg)))
 
 (define extend-multi
+  doc "Adds implementation for multi-method for key."
+  {symbol --> K --> A --> B}
   Name Key Body ->
     (let Multi   (get Name multi)
          Methods (<-vector Multi 3)
@@ -24,23 +30,15 @@
         (shen.dict-> Methods Key Body)
         Body)))
 
-(defmacro untyped-macro
-  [do-untyped | Forms] ->
-    [do |
-      [if [value shen.*tc*]
-        (append [[tc -]] Forms [[tc +]])
-        Forms]])
-
 (defmacro defmulti-macro
   [defmulti Name Selector] ->
     [do
       [make-multi Name Selector]
-      [define Name (protect Arg) -> [call-multi Name (protect Arg)]]]
+      [define Name ~'Arg -> [call-multi Name ~'Arg]]]
   [defmulti Name Type Selector] ->
-    [do-untyped
+    [do
       [make-multi Name Selector]
-      [define Name (protect Arg) -> [call-multi Name (protect Arg)]]
-      [declare Name Type]])
+      [define Name Type ~'Arg -> [call-multi Name ~'Arg]]])
 
 (defmacro defmethod-macro
   [defmethod Name Key Body] ->

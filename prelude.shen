@@ -17,3 +17,5 @@
 (require-untyped match)
 (require-untyped aritycheck)
 (require-untyped maybe)
+\\(require-typed multi)
+\\(require-typed generic)
