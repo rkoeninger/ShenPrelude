@@ -8,6 +8,10 @@
       (set *seed* Next)
       Next)))
 
+(define next-random-boolean
+  doc "Returns the next random boolean based on the current value of `*seed*`."
+  -> (= 0 (mod (next-random) 2)))
+
 (define next-random-between
   doc "Returns the next random value within the given range."
   I I -> I
@@ -42,6 +46,7 @@
   Xs -> (vector->list (shuffle-vector (list->vector Xs))))
 
 (declare next-random [--> number])
+(declare next-random-boolean [--> boolean])
 (declare next-random-between [number --> [number --> number]])
 (declare vector-swap [[vector A] --> [number --> [number --> [vector A]]]])
 (declare bubble-sort [[A --> [A --> boolean]] --> [number --> [number --> [[vector A] --> [vector A]]]]])

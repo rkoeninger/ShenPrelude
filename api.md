@@ -432,6 +432,10 @@ Returns the next random value based on the current value of `*seed*`.
 
 Returns the next random value within the given range.
 
+### `next-random-boolean` : `→ boolean`
+
+Returns the next random boolean based on the current value of `*seed*`.
+
 ### `nl` : `number → number`
 
 Writes a number of new lines to the standard output stream.
