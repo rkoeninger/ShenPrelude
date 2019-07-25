@@ -4,14 +4,14 @@
 (defmacro function-syntax-macro
   S -> [function (intern (internal.subs 2 (str S)))] where (internal.sympre? "#'" S))
 
+(defmacro continuation-syntax-macro
+  S -> [freeze [(intern (internal.subs 2 (str S)))]] where (internal.sympre? "!'" S))
+
 (defmacro value-syntax-macro
   S -> [value (intern (internal.subs 2 (str S)))] where (internal.sympre? "&'" S))
 
 (defmacro protect-syntax-macro
   S -> [protect (intern (internal.subs 2 (str S)))] where (internal.sympre? "~'" S))
-
-(defmacro intern-syntax-macro
-  S -> [intern (internal.subs 2 (str S))] where (internal.sympre? "@'" S))
 
 (defmacro thru-macro
   [thru] -> []
