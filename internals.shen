@@ -19,6 +19,10 @@
 (define internal.dset
   S E -> (do (set S (eval E)) true))
 
+(define internal.un-rcons
+  [cons X Y] -> [(internal.un-rcons X) | (internal.un-rcons Y)]
+  X -> X)
+
 (declare internal.pre? [string --> [string --> boolean]])
 (declare internal.sympre? [string --> [symbol --> boolean]])
 (declare internal.subs? [string --> [string --> boolean]])

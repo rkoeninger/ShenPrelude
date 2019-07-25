@@ -1,3 +1,4 @@
+(set-doc *seed* "The seed from which the next random value is derived.")
 (set *seed* (shen.mod (get-time unix) (* 32768 32768)))
 
 (define next-random
@@ -45,6 +46,7 @@
   doc "Randomizes elements in cons list, returning a new list."
   Xs -> (vector->list (shuffle-vector (list->vector Xs))))
 
+(declare-value *seed* number)
 (declare next-random [--> number])
 (declare next-random-boolean [--> boolean])
 (declare next-random-between [number --> [number --> number]])

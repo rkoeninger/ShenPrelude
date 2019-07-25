@@ -33,7 +33,7 @@
 
 (defmacro deftype-macro
   [deftype Name | Rules] ->
-    [datatype (concat Name "-type") | (mapcan (function internal.sequent) Rules)])
+    [datatype (concat Name -type) | (mapcan (function internal.sequent) Rules)])
 
 (defmacro define-doc-macro
   [define Name doc Doc | Rest] ->
@@ -46,3 +46,10 @@
     [do
       [set-doc Name Doc]
       [define Name { Type } Value]])
+
+(defmacro declare-value-macro
+  [declare-value Name Type] ->
+    (let Type' (internal.un-rcons Type)
+      [datatype (concat Name -type)
+        (protect X) : Type' ; __ [set Name (protect X)] : Type' ;
+        __ [value Name] : Type' ;]))

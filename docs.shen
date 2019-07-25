@@ -32,45 +32,39 @@
           (fail)
           TypeSig))))
 
-(define not=
-  X Y -> (not (= X Y)))
-
-(define not==
-  X Y -> (not (= X Y)))
-
-(define fail?
-  X -> (= X shen.fail!))
-
-(define skip?
-  X -> (= X shen.skip))
-
 (define info
   Name ->
     (do
       (internal.as-symbol Name)
       (make-string "~%type: ~A~%doc:  ~A~%src:  ~A~%"
         (let TypeSig (shen.get-type Name)
-          (if (fail? TypeSig) "n/a" TypeSig))
+          (if (= (fail) TypeSig) "n/a" TypeSig))
         (doc Name)
         (trap-error (ps Name) (/. _ "n/a")))))
 
+(declare-value *doc-index* [list [symbol * string]])
 (declare doc [symbol --> string])
 (declare set-doc [symbol --> [string --> string]])
 (declare search-doc [string --> [list symbol]])
 (declare type-of [symbol --> unit])
-(declare fail? [A --> boolean])
-(declare skip? [A --> boolean])
-(declare not= [A --> [A --> boolean]])
-(declare not== [A --> [B --> boolean]])
 (declare info [symbol --> string])
 
 (do
   \\ require
+  (declare-value *tc-stack* [list symbol])
+  (set-doc *tc-stack* "Stack of `tc` `+`/`-` values that have been pushed by `push-tc`.")
+  (set-doc push-tc "Pushes current `+`/`-` onto `*tc-stack*` and sets `tc` to given mode.")
+  (set-doc pop-tc "Pops `+`/`-` off of `*tc-stack*` and set `tc` to that mode.")
+  (declare-value *loaded* [list symbol])
   (set-doc *loaded* "List of scripts that have been loaded.")
+  (set-doc loaded? "Returns true if given module has been loaded.")
   (set-doc reload "Loads script whether it has been loaded or not.")
-  (set-doc reload-typed "Loads script with (tc +) whether it has been loaded or not.")
+  (set-doc reload-typed "Loads script with `(tc +)` whether it has been loaded or not.")
+  (set-doc reload-untyped "Loads script with `(tc -)` whether it has been loaded or not.")
   (set-doc require "Loads script if it has not been loaded.")
-  (set-doc require-typed "Loads script with (tc +) if it has not been loaded.")
+  (set-doc require-typed "Loads script with `(tc +)` if it has not been loaded.")
+  (set-doc require-untyped "Loads script with `(tc -)` if it has not been loaded.")
+  (set-doc set-once "Sets global symbol to value only if global symbol is not already bound.")
 
   \\ docs
   (set-doc *doc-index* "Association list of symbol names to doc strings.")
@@ -78,10 +72,6 @@
   (set-doc set-doc "Sets doc string for symbol.")
   (set-doc search-doc "Searches for functions with doc strings similar to search string.")
   (set-doc type-of "Returns type-signature of function or (fail).")
-  (set-doc not= "Equivalent to (not (= X Y)).")
-  (set-doc not== "Equivalent to (not (== X Y)).")
-  (set-doc fail? "Returns true if argument is the fail symbol.")
-  (set-doc skip? "Returns true if argument is the skip symbol.")
   (set-doc info "Returns human readable string with type, doc string, source for symbol.")
 
   \\ kernel

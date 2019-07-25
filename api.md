@@ -12,6 +12,14 @@ Association list of symbol names to doc strings.
 
 List of scripts that have been loaded.
 
+### `*seed*`
+
+The seed from which the next random value is derived.
+
+### `*tc-stack*`
+
+Stack of `tc` `+`/`-` values that have been pushed by `push-tc`.
+
 ### `+` : `number → number → number`
 
 Adds two numbers.
@@ -368,6 +376,10 @@ Makes a new vector out of a list.
 
 Reads and evaluates code at path relative to `*home-directory*`.
 
+### `loaded?` : `symbol → boolean`
+
+Returns true if given module has been loaded.
+
 ### `lower-case` : `string → string`
 
 Returns copy of string with all characters converted to lower-case.
@@ -512,6 +524,10 @@ Returns true if argument is the name of a defined package.
 
 Splits list into list of sublists, each no longer than given length.
 
+### `pop-tc` : `→ symbol`
+
+Pops `+`/`-` off of `*tc-stack*` and set `tc` to that mode.
+
 ### `port` : `→ string`
 
 Returns the version of this port of Shen.
@@ -564,6 +580,10 @@ Used by parser to identify code that should not be interpreted. Passes through a
 
 Returns the compiled KLambda code for the given function.
 
+### `push-tc` : `symbol → symbol`
+
+Pushes current `+`/`-` onto `*tc-stack*` and sets `tc` to given mode.
+
 ### `range` : `number → (list number)`
 
 Returns list of numbers from 1 up to and including the given number.
@@ -602,7 +622,11 @@ Loads script whether it has been loaded or not.
 
 ### `reload-typed` : `symbol → symbol`
 
-Loads script with (tc +) whether it has been loaded or not.
+Loads script with `(tc +)` whether it has been loaded or not.
+
+### `reload-untyped` : `symbol → symbol`
+
+Loads script with `(tc -)` whether it has been loaded or not.
 
 ### `remove` : `A → (list A) → (list A)`
 
@@ -622,7 +646,11 @@ Loads script if it has not been loaded.
 
 ### `require-typed` : `symbol → symbol`
 
-Loads script with (tc +) if it has not been loaded.
+Loads script with `(tc +)` if it has not been loaded.
+
+### `require-untyped` : `symbol → symbol`
+
+Loads script with `(tc -)` if it has not been loaded.
 
 ### `reverse` : `(list A) → (list A)`
 
@@ -643,6 +671,10 @@ Splits list into two separate lists based on whether predicate returns true or f
 ### `set-doc` : `symbol → string → string`
 
 Sets doc string for symbol.
+
+### `set-once` : `symbol → A → A`
+
+Sets global symbol to value only if global symbol is not already bound.
 
 ### `shuffle-list` : `(list A) → (list A)`
 

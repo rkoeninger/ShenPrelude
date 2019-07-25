@@ -2,6 +2,7 @@
 (require-untyped internals)
 (require-untyped macros)
 (require-untyped docs)
+(require-typed values)
 (require-untyped numbers_untyped)
 (require-typed numbers)
 (require-untyped random)
