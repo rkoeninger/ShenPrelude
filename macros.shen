@@ -14,10 +14,15 @@
   S -> [protect (intern (internal.subs 2 (str S)))] where (internal.sympre? "~'" S))
 
 (defmacro thru-macro
+  [->> | More] -> [thru | More]
   [thru] -> []
   [thru X] -> X
   [thru X F | Fs] -> [thru (append F [X]) | Fs] where (cons? F)
   [thru X F | Fs] -> [thru [F X] | Fs])
+
+(defmacro thru-lambda-macro
+  [/->> | More] -> [thru-lambda | More]
+  [thru-lambda | Fs] -> (let X (gensym (protect P)) [/. X [thru X | Fs]]))
 
 (define internal.label
   [: X T] -> [X : T ;]
