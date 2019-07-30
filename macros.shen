@@ -24,6 +24,15 @@
   [/->> | More] -> [thru-lambda | More]
   [thru-lambda | Fs] -> (let X (gensym (protect P)) [/. X [thru X | Fs]]))
 
+(define internal.try-clauses
+  [where W H | More] -> [if W H (internal.try-clauses More)]
+  [H] -> H
+  _ -> (error "invalid try clause(s)."))
+
+(defmacro try-macro
+  [try T H] -> [trap-error T [/. _ H]]
+  [try T E | Clauses] -> [trap-error T [/. E (internal.try-clauses Clauses)]])
+
 (define internal.label
   [: X T] -> [X : T ;]
   X -> [X ;])

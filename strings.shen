@@ -151,3 +151,8 @@
   {number --> string}
   0 -> ""
   N -> (@s " " (spaces (- N 1))))
+
+(define error-like?
+  doc "Determines if error has a message like the given string."
+  {exception --> string --> boolean}
+  E S -> (contains-substring? S (error-to-string E)))
