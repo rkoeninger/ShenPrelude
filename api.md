@@ -200,6 +200,10 @@ Returns true if argument is an empty list.
 
 Takes + or - to turn default type system on or off.
 
+### `error-like?` : `exception → string → boolean`
+
+Determines if error has a message like the given string.
+
 ### `error-to-string` : `exception → string`
 
 Returns exception's message.
