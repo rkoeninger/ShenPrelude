@@ -188,6 +188,10 @@ Returns all but the first n elements in list.
 
 Returns list remaining elements after dropping consecutive leading elements so long as given predicate returns true for them.
 
+### `each` : `(list A) → (A → B) → unit`
+
+For each item in list, applies function.
+
 ### `element?` : `A → (list A) → boolean`
 
 Returns true if value is in list.
@@ -256,6 +260,10 @@ Combines values in list from left to right using given function.
 
 Combines values in list from right to left using given function.
 
+### `for-each` : `(A → B) → (list A) → unit`
+
+Applies function to each item in list.
+
 ### `freeze` : `A → (lazy A)`
 
 Returns a function that will evaluate expression.
@@ -311,6 +319,10 @@ Makes datatypes visible to the type checker.
 ### `include-all-but` : `(list symbol) → (list symbol)`
 
 Makes all datatypes except the given visible to the type checker.
+
+### `indent-file` : `symbol → string → string → unit`
+
+Reads file at In path and overrites file at Out path with lines properly indented.
 
 ### `index-of` : `string → string → number`
 
@@ -784,6 +796,10 @@ Returns standard output stream.
 
 Converts value to a string.
 
+### `string->bytes` : `string → (list number)`
+
+Converts a string to a list of code points.
+
 ### `string->n` : `string → number`
 
 Converts unit string to character code point.
@@ -980,6 +996,10 @@ Returns true if given value is a vector (not just an absvector).
 
 Returns version of Shen.
 
+### `void` : `→ unit`
+
+Returns an empty list as a unit value.
+
 ### `whitespace?` : `string → boolean`
 
 Returns true if string is all whitespace.
@@ -987,6 +1007,10 @@ Returns true if string is all whitespace.
 ### `write-byte` : `number → (stream out) → number`
 
 Writes a byte to a stream, returning the byte.
+
+### `write-file-as-string` : `string → string → unit`
+
+Writes string as ASCII sequence to file at given path.
 
 ### `write-to-file` : `string → A → A`
 
