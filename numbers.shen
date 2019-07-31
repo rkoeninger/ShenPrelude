@@ -1,3 +1,13 @@
+(define pos?
+  doc "Determines if number is positive."
+  {number --> boolean}
+  X -> (> X 0))
+
+(define neg?
+  doc "Determines if number is negative."
+  {number --> boolean}
+  X -> (< X 0))
+
 (define signum
   doc "Returns -1 for negative number, 1 for positive, 0 for 0."
   {number --> number}
@@ -6,17 +16,27 @@
   _ ->  0)
 
 (define abs
-  doc "Returns the absolute value of the given number."
+  doc "Returns the absolute value of given number."
   {number --> number}
-  X -> (* -1 X) where (< X 0)
-  X -> X)
+  X -> (* X (signum X)))
+
+(define neg
+  doc "Returns negation of given number."
+  {number --> number}
+  X -> (* -1 X))
+
+(define ceil {number --> number} X -> X)
 
 (define floor
-  doc "Rounds down to nearest integer (only for positive numbers)."
+  doc "Rounds down to nearest integer."
   {number --> number}
-  X -> (if (int? X) X (- X (mod X 1))))
+  X -> X where (int? X)
+  X -> (neg (ceil (neg X))) where (neg? X)
+  X -> (- X (mod X 1)))
 
-(define ceiling
-  doc "Rounds up to nearest integer (only for positive numbers)."
+(define ceil
+  doc "Rounds up to nearest integer."
   {number --> number}
-  X -> (if (int? X) X (+ 1 (- X (mod X 1)))))
+  X -> X where (int? X)
+  X -> (neg (floor (neg X))) where (neg? X)
+  X -> (+ 1 (- X (mod X 1))))

@@ -68,6 +68,10 @@ Returns true if first number is greater than the second.
 
 Returns true if first number is greater than or equal to the second.
 
+### `abs` : `number → number`
+
+Returns the absolute value of given number.
+
 ### `absvector?` : `A → boolean`
 
 Returns true if argument is an absvector.
@@ -116,9 +120,9 @@ Bubble-sorts a slice of a vector.
 
 Changes working directory.
 
-### `ceiling` : `number → number`
+### `ceil` : `number → number`
 
-Rounds up to nearest integer (only for positive numbers).
+Rounds up to nearest integer.
 
 ### `close` : `(stream A) → (list B)`
 
@@ -250,7 +254,7 @@ Converts a list of lists into one long list.
 
 ### `floor` : `number → number`
 
-Rounds down to nearest integer (only for positive numbers).
+Rounds down to nearest integer.
 
 ### `fold-left` : `(A → B → A) → A → (list B) → A`
 
@@ -464,6 +468,14 @@ Performs modulus operation.
 
 Returns unit string for character code point.
 
+### `neg` : `number → number`
+
+Returns negation of given number.
+
+### `neg?` : `number → boolean`
+
+Determines if number is negative.
+
 ### `next-random` : `→ number`
 
 Returns the next random value based on the current value of `*seed*`.
@@ -555,6 +567,10 @@ Returns the name(s) of the author(s) of this port of Shen.
 ### `pos` : `string → number → string`
 
 Returns the unit string at the given 0-based index in a string.
+
+### `pos?` : `number → boolean`
+
+Determines if number is positive.
 
 ### `pr` : `string → (stream out) → string`
 
