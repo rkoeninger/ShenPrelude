@@ -66,8 +66,19 @@
 (define suffix
   doc "Adds value to end of list."
   {A --> (list A) --> (list A)}
-  X [] -> [X]
+  X []       -> [X]
   X [Y | Ys] -> [Y | (suffix X Ys)])
+
+(define for-each
+  doc "Applies function to each item in list."
+  {(A --> B) --> (list A) --> unit}
+  F [X | Xs] -> (do (F X) (for-each F Xs))
+  _ _        -> (void))
+
+(define each
+  doc "For each item in list, applies function."
+  {(list A) --> (A --> B) --> unit}
+  Xs F -> (for-each F Xs))
 
 (define filter
   doc "Returns copy of list with only elements for which predicate returns true."
