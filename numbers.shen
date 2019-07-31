@@ -5,6 +5,12 @@
   X ->  1 where (> X 0)
   _ ->  0)
 
+(define abs
+  doc "Returns the absolute value of the given number."
+  {number --> number}
+  X -> (* -1 X) where (< X 0)
+  X -> X)
+
 (define floor
   doc "Rounds down to nearest integer (only for positive numbers)."
   {number --> number}
