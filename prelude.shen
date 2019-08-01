@@ -23,3 +23,4 @@
 (require-untyped kinds)
 (require-untyped kind_declarations)
 (require-untyped multi)
+(require-untyped method_declarations)

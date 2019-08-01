@@ -22,3 +22,8 @@
   doc "Returns a function that ignores its argument and always returns the given value."
   {A --> B --> A}
   X _ -> X)
+
+(define id
+  doc "Returns the same value given."
+  {A --> A}
+  X -> X)

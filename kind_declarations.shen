@@ -3,6 +3,7 @@
 (defkind #'string?    string)
 (defkind #'symbol?    symbol)
 (defkind #'cons?      cons)
+(defkind #'function?  function)
 (defkind #'absvector? absvector)
 (defkind #'vector?    vector)
 (defkind #'tuple?     tuple)
