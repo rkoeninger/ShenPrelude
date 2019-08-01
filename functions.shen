@@ -17,3 +17,8 @@
   doc "Converts function that takes arguments individually to function that takes tuple."
   {(A --> B --> C) --> (A * B) --> C}
   F -> (/. P (F (fst P) (snd P))))
+
+(define const
+  doc "Returns a function that ignores its argument and always returns the given value."
+  {A --> B --> A}
+  X _ -> X)
