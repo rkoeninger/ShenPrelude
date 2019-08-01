@@ -116,6 +116,14 @@ Returns true if symbol is bound to a value.
 
 Bubble-sorts a slice of a vector.
 
+### `but-first` : `(list A) → (list A)`
+
+Returns list with all the same elements but the first.
+
+### `but-last` : `(list A) → (list A)`
+
+Returns list with all the same elements but the last.
+
 ### `cd` : `string → string`
 
 Changes working directory.
@@ -144,6 +152,10 @@ Returns new version of function with inverse result of given function.
 
 Returns true if argument is a cons.
 
+### `const` : `A → B → A`
+
+Returns a function that ignores its argument and always returns the given value.
+
 ### `contains-substring?` : `string → string → boolean`
 
 Returns true if substring is contained by string.
@@ -163,6 +175,26 @@ Builds list of every combination of values in two lists using given function.
 ### `curry` : `((A * B) → C) → A → B → C`
 
 Converts function that takes tuple to function that takes arguments individually.
+
+### `defgeneric` : `symbol → T → symbol`
+
+Declares a new generic method with the given type.
+
+### `defkind`
+
+Defines a specific implementation of `kind-of` with the given predicate and symbol.
+
+### `defmethod` : `symbol → symbol → (A → B) → symbol`
+
+Adds implementation for multi-method for kind.
+
+### `defmulti` : `symbol → T → symbol`
+
+Declares a new multi-method with given type.
+
+### `defspecific` : `symbol → (A → boolean) → (A → B) → symbol`
+
+Declares a case-specific implementation of a generic method. New implementations supercede old ones.
 
 ### `destroy` : `(A → B) → symbol`
 
@@ -239,6 +271,10 @@ Returns true if argument is the fail symbol.
 ### `filter` : `(A → boolean) → (list A) → (list A)`
 
 Returns copy of list with only elements for which predicate returns true.
+
+### `first` : `(list A) → A`
+
+Returns the first element of a list, error if emtpy.
 
 ### `fix` : `(A → A) → A → A`
 
@@ -376,9 +412,17 @@ Concatenates a list of strings interspersing a separator.
 
 Terminates YACC parsing.
 
+### `kind-of` : `A → symbol`
+
+Returns a symbol identifying the type family of given value.
+
 ### `language` : `→ string`
 
 Returns name of language this port is implemented in.
+
+### `last` : `(list A) → A`
+
+Returns the last element of a list, error if empty.
 
 ### `length` : `(list A) → number`
 
