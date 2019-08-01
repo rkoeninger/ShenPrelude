@@ -1,74 +1,37 @@
-\\ Simplified version of Clojure multi-methods (https://clojure.org/reference/multimethods)
-\\ Only works for 1-arg functions.
-\\ Uncomment example at bottom to test.
+\\ Based on Clojure multi-methods (https://clojure.org/reference/multimethods)
 
-(define make-multi
-  doc "Declares a new multi-method."
-  {symbol --> (A --> K) --> unit}
-  Name Selector ->
-    (let Multi (@v Name Selector (shen.dict 32) <>)
-      (put Name multi Multi)))
-
-(define call-multi
-  doc "Invokes a 1-parameter multi-method."
-  {symbol --> A --> B}
+(define multi.dispatch
   Name Arg ->
-    (let Multi    (get Name multi)
-         Selector (<-vector Multi 2)
-         Methods  (<-vector Multi 3)
-         Key      (Selector Arg)
-         Body     (shen.<-dict Methods Key)
+    (let Dict (get Name methods)
+         Kind (kind-of Arg)
+         Body (trap-error
+                (shen.<-dict Dict Kind)
+                (/. _ (error "no matching implementation for kind ~A in multi ~A" Kind Name)))
       (Body Arg)))
 
-(define extend-multi
-  doc "Adds implementation for multi-method for key."
-  {symbol --> K --> A --> B}
-  Name Key Body ->
-    (let Multi   (get Name multi)
-         Methods (<-vector Multi 3)
-      (do
-        (shen.dict-> Methods Key Body)
-        Body)))
+(define defmulti
+  doc "Declares a new multi-method with given type."
+  Name Type ->
+    (do
+      (put Name methods (shen.dict 16))
+      (eval [define Name ~'Arg -> [multi.dispatch Name ~'Arg]])
+      (declare Name Type)
+      Name))
+
+(define defmethod
+  doc "Adds implementation for multi-method for kind."
+  Name Kind Body ->
+    (do
+      (shen.dict-> (get Name methods) Kind Body)
+      Name))
 
 (defmacro defmulti-macro
-  [defmulti Name Selector] ->
-    [do
-      [make-multi Name Selector]
-      [define Name ~'Arg -> [call-multi Name ~'Arg]]]
-  [defmulti Name Type Selector] ->
-    [do
-      [make-multi Name Selector]
-      [define Name Type ~'Arg -> [call-multi Name ~'Arg]]])
+  [defmulti Name] ->
+    [defmulti Name [[protect (gensym A)] --> [protect (gensym B)]]]
+  [defmulti Name { | More] ->
+    (if (= } (last More))
+      [defmulti Name (internal.rcons (but-last More))]
+      (error "invalid type signature in (defmulti ~A ...)" Name)))
 
-(defmacro defmethod-macro
-  [defmethod Name Key Body] ->
-    [extend-multi Name Key Body])
-
-\*
-\\ Define prerequisite math function:
-(define sign   0 -> 0   X -> 1 where (> X 0)   _ -> -1)
-
-\\ Define a multimethod with a name and a selector function:
-(defmulti show-sign (function sign))
-
-\\ Define implementations by specifying a key value and a body:
-(defmethod show-sign  0 (/. _ "zero"))
-(defmethod show-sign  1 (/. _ "positive"))
-(defmethod show-sign -1 (/. _ "negative"))
-
-\\ The key value is the value returned by the selector function
-\\ for a set of arguments.
-
-\\ The code above defines a function called `show-sign` which takes
-\\ a number and returns "positive" if the number is positive, returns
-\\ "negative" if the number is negative and returns "zero" if the
-\\ number is zero.
-
-\\ A multimethod can use any function as a selector. Typically,
-\\ a selector will be a classifier that returns relatively few values
-\\ so that an implementation can be provided for all keys.
-
-\\ If a multimethod is applied to an argument that has no
-\\ implementation defined for it, or the selector itself raises an
-\\ error, that error will propogate to the caller.
-*\
+(declare defmulti [symbol --> [T --> symbol]])
+(declare defmethod [symbol --> [symbol --> [[A --> B] --> symbol]]])
