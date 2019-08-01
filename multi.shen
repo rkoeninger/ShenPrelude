@@ -26,6 +26,10 @@
       Name))
 
 (defmacro defmulti-macro
+  [defmulti Name doc Doc | More] ->
+    [do
+      [set-doc Name Doc]
+      [defmulti Name | More]]
   [defmulti Name] ->
     [defmulti Name [[protect (gensym A)] --> [protect (gensym B)]]]
   [defmulti Name { | More] ->

@@ -1,5 +1,6 @@
-(defmulti size {A --> number})
-(set-doc size "Generic size method.")
+(defmulti size
+  doc "Generic size method."
+  {A --> number})
 
 (defmethod size nil    (const 0))
 (defmethod size number #'id)

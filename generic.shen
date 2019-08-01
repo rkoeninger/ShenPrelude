@@ -20,6 +20,10 @@
       Name))
 
 (defmacro defgeneric-macro
+  [defgeneric Name doc Doc | More] ->
+    [do
+      [set-doc Name Doc]
+      [defgeneric Name | More]]
   [defgeneric Name] ->
     [defgeneric Name (internal.rcons [[protect (gensym A)] --> [protect (gensym B)]])]
   [defgeneric Name { | More] ->
