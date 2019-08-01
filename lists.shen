@@ -58,6 +58,32 @@
     (let S (split-at N Xs)
       [(fst S) | (if (= [] (snd S)) [] (partition N (snd S)))]))
 
+(define first
+  doc "Returns the first element of a list, error if emtpy."
+  {(list A) --> A}
+  [X | _] -> X
+  _       -> (error "empty list"))
+
+(define last
+  doc "Returns the last element of a list, error if empty."
+  {(list A) --> A}
+  [X]      -> X
+  [_ | Xs] -> (last Xs)
+  _        -> (error "empty list"))
+
+(define but-first
+  doc "Returns list with all the same elements but the first."
+  {(list A) --> (list A)}
+  []       -> []
+  [_ | Xs] -> Xs)
+
+(define but-last
+  doc "Returns list with all the same elements but the last."
+  {(list A) --> (list A)}
+  []       -> []
+  [X]      -> []
+  [X | Xs] -> [X | (but-last Xs)])
+
 (define prepend
   doc "Adds value to beginning of list."
   {A --> (list A) --> (list A)}
