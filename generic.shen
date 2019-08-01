@@ -1,23 +1,31 @@
+(define generic.dispatch
+  [(@p Pred Body) | _] Arg -> (Body Arg) where (Pred Arg)
+  [_ | More]           Arg -> (generic.dispatch More Arg)
+  _ _ -> (error "no matching implementation"))
+
 (define defgeneric
-  {symbol --> unit --> symbol}
+  doc "Declares a new generic method with the given type."
   Name Type ->
     (do
-      () \\ create dispatch list in global
-      (elim-def [define Name ~'Arg -> [call-generic Name ~'Arg]])
+      (put Name dispatch-list [])
+      (eval [define Name ~'Arg -> [generic.dispatch [get Name dispatch-list] ~'Arg]])
       (declare Name Type)
       Name))
 
 (define defspecific
-  {symbol --> (A --> boolean) --> (A --> B) --> symbol}
+  doc "Declares a case-specific implementation of a generic method. New implementations supercede old ones."
   Name Pred Body ->
     (do
-      () \\ prepend to dispatch list
+      (put Name dispatch-list [(@p Pred Body) | (get Name dispatch-list)])
       Name))
 
-(define call-generic
-  {symbol --> A --> B}
-  Name Arg ->
-    []) \\ lookup dispatch list, pick one, run it
-
 (defmacro defgeneric-macro
-  [defgeneric Name { | More] -> [defgeneric Name (take-while (not= }) Xs)])
+  [defgeneric Name] ->
+    [defgeneric Name (internal.rcons [[protect (gensym A)] --> [protect (gensym B)]])]
+  [defgeneric Name { | More] ->
+    (if (= } (last More))
+      [defgeneric Name (internal.rcons (but-last More))]
+      (error "invalid type signature in (defgeneric ~A ...)" Name)))
+
+(declare defgeneric [symbol --> [T --> symbol]])
+(declare defspecific [symbol --> [[A --> boolean] --> [[A --> B] --> symbol]]])

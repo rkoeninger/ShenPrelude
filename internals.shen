@@ -21,7 +21,12 @@
 
 (define internal.un-rcons
   [cons X Y] -> [(internal.un-rcons X) | (internal.un-rcons Y)]
-  X -> X)
+  X          -> X)
+
+(define internal.rcons
+  [X | Y] -> [cons (internal.rcons X) (internal.rcons Y)]
+  []      -> []
+  X       -> X)
 
 (declare internal.pre? [string --> [string --> boolean]])
 (declare internal.sympre? [string --> [symbol --> boolean]])
