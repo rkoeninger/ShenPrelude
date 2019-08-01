@@ -344,6 +344,10 @@ Returns first value in vector.
 
 Returns first value in list.
 
+### `id` : `A → A`
+
+Returns the same value given.
+
 ### `if` : `boolean → A → A → A`
 
 Evaluates condition, evaluates and returns second expression if true, third expression if false.
@@ -767,6 +771,10 @@ Returns -1 for negative number, 1 for positive, 0 for 0.
 ### `simple-error` : `string → A`
 
 Raises exception with given error message.
+
+### `size` : `A → number`
+
+Generic size method.
 
 ### `skip?` : `A → boolean`
 
