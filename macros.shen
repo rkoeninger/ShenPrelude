@@ -1,3 +1,7 @@
+(defmacro comment-macro
+  [! | _]       -> [void]
+  [comment | _] -> [void])
+
 (defmacro ???-macro
   ??? -> [error "not implemented"])
 
