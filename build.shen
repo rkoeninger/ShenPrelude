@@ -1,5 +1,3 @@
-(load "prelude.shen")
-
 (define flatten-type
   [X --> [Y --> Z]] -> [(flatten-type X) --> | (flatten-type [Y --> Z])]
   [X --> Y] -> [(flatten-type X) --> Y]
@@ -8,11 +6,11 @@
 (define format-type-sub
   -->      -> "→"
   shen.==> -> "⇨"
-  Type     -> (cn "(" (cn (join-strings " " (map (function format-type-sub) Type)) ")")) where (cons? Type)
+  Type     -> (make-string "(~A)" (join-strings " " (map #'format-type-sub Type))) where (cons? Type)
   Type     -> (str Type))
 
 (define format-type
-  Type -> (join-strings " " (map (function format-type-sub) Type)) where (cons? Type)
+  Type -> (join-strings " " (map #'format-type-sub Type)) where (cons? Type)
   Type -> (str Type))
 
 (define format-entry
@@ -21,8 +19,12 @@
          Heading (if (fail? Type) Heading (@s Heading " : `" (format-type (flatten-type Type)) "`"))
       [Heading Doc]))
 
-(let NameDocs (sort-list (/. X Y (>= 0 (string-compare (str (fst X)) (str (fst Y))))) (value *doc-index*))
-     Entries  (flat-map (/. D (format-entry (fst D) (snd D) (type-of (fst D)))) NameDocs)
-     Markdown (join-strings "c#13;c#10;c#13;c#10;" ["# Shen Prelude API Docs" | Entries])
-     _        (write-to-file "api.md" Markdown)
+(do
+  (->>
+    &'*doc-index*
+    (sort-list (/. X Y (>= 0 (string-compare (str (fst X)) (str (fst Y))))))
+    (flat-map (/. D (format-entry (fst D) (snd D) (type-of (fst D)))))
+    (cons "# Shen Prelude API Docs")
+    (join-strings "c#13;c#10;c#13;c#10;")
+    (write-to-file "api.md"))
   docs-written)
