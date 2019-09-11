@@ -27,6 +27,13 @@
         (vector-> V J X)
         V)))
 
+(define vector-update
+  doc "Transforms value at index by given function."
+  V I F ->
+    (do
+      (vector-> V I (F (<-vector V I)))
+      V))
+
 (define bubble-sort
   doc "Bubble-sorts a slice of a vector."
   F 1 _ V -> V
@@ -51,6 +58,7 @@
 (declare next-random-boolean [--> boolean])
 (declare next-random-between [number --> [number --> number]])
 (declare vector-swap [[vector A] --> [number --> [number --> [vector A]]]])
+(declare vector-update [[vector A] --> [number --> [[A --> A] --> [vector A]]]])
 (declare bubble-sort [[A --> [A --> boolean]] --> [number --> [number --> [[vector A] --> [vector A]]]]])
 (declare shuffle-vector [[vector A] --> [vector A]])
 (declare shuffle-list [[list A] --> [list A]])
