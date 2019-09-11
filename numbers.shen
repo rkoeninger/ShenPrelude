@@ -25,7 +25,12 @@
   {number --> number}
   X -> (* -1 X))
 
-(define ceil {number --> number} X -> X)
+(define decrement
+  doc "Subtracts 1 from number."
+  {number --> number}
+  X -> (- X 1))
+
+(define ceil {number --> number} X -> X) \\ pre-declaration
 
 (define floor
   doc "Rounds down to nearest integer."
