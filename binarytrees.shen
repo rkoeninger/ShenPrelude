@@ -26,7 +26,7 @@
 (define traverse-level-order
   {(A --> B --> B) --> B --> (binary-tree A) --> B}
   _ B tip -> B
-  F B T -> (F (here T) B))
+  F B T -> (F (here T) B)) \\ TODO: implement this https://en.wikipedia.org/wiki/Tree_traversal#Breadth-first_search_2
 
 (define traverse
   {symbol --> (A --> B --> B) --> B --> (binary-tree A) --> B}
