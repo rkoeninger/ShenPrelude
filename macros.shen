@@ -37,6 +37,9 @@
   [try T H] -> [trap-error T [/. _ H]]
   [try T E | Clauses] -> [trap-error T [/. E (internal.try-clauses Clauses)]])
 
+(defmacro when-macro
+  [when C T] -> [if C [do T [unit]] [unit]])
+
 (define internal.label
   [: X T] -> [X : T ;]
   X -> [X ;])
