@@ -47,3 +47,8 @@
 (declare stack-push [[stack A] --> [A --> [stack A]]])
 (declare stack-peek [[stack A] --> A])
 (declare stack-pop [[stack A] --> A])
+
+(defmacro stack-macro
+  [stack | Xs] ->
+    (fold-right (/. X S [stack-push S X]) [stack] Xs)
+  where (cons? Xs))

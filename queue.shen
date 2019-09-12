@@ -52,3 +52,8 @@
 (declare queue-push [[queue A] --> [A --> [queue A]]])
 (declare queue-peek [[queue A] --> A])
 (declare queue-pop [[queue A] --> A])
+
+(defmacro queue-macro
+  [queue | Xs] ->
+    (fold-left (/. Q X [queue-push Q X]) [queue] Xs)
+  where (cons? Xs))
