@@ -1,3 +1,7 @@
+(if (not (shen.fbound? require))
+  (error "prelude not loaded. run `shen -l prelude.shen -l build.shen`")
+  [])
+
 (define flatten-type
   [X --> [Y --> Z]] -> [(flatten-type X) --> | (flatten-type [Y --> Z])]
   [X --> Y] -> [(flatten-type X) --> Y]

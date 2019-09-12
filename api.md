@@ -104,6 +104,10 @@ Returns arity of given function name or -1 if there is not such function.
 
 Returns pair in association list with given key value.
 
+### `binary-tree->list` : `symbol → (binary-tree A) → (list A)`
+
+Collects values in binary tree into a list in given traversal.
+
 ### `boolean?` : `A → boolean`
 
 Returns true if argument is a boolean.
@@ -175,6 +179,10 @@ Builds list of every combination of values in two lists using given function.
 ### `curry` : `((A * B) → C) → A → B → C`
 
 Converts function that takes tuple to function that takes arguments individually.
+
+### `decrement` : `number → number`
+
+Subtracts 1 from number.
 
 ### `defgeneric` : `symbol → T → symbol`
 
@@ -344,6 +352,10 @@ Returns first value in vector.
 
 Returns first value in list.
 
+### `here` : `(binary-tree A) → A`
+
+Gets the value of a binary tree node.
+
 ### `id` : `A → A`
 
 Returns the same value given.
@@ -427,6 +439,10 @@ Returns name of language this port is implemented in.
 ### `last` : `(list A) → A`
 
 Returns the last element of a list, error if empty.
+
+### `left` : `(binary-tree A) → (binary-tree A)`
+
+Gets the left branch of a binary tree node.
 
 ### `length` : `(list A) → number`
 
@@ -539,6 +555,10 @@ Returns the next random boolean based on the current value of `*seed*`.
 ### `nl` : `number → number`
 
 Writes a number of new lines to the standard output stream.
+
+### `node` : `A → (binary-tree A) → (binary-tree A) → (binary-tree A)`
+
+Creates a binary tree node from a value, left branch and right branch.
 
 ### `none` : `→ (maybe A)`
 
@@ -664,6 +684,34 @@ Returns the compiled KLambda code for the given function.
 
 Pushes current `+`/`-` onto `*tc-stack*` and sets `tc` to given mode.
 
+### `queue` : `→ (queue A)`
+
+Creates a new queue.
+
+### `queue-empty?` : `(queue A) → boolean`
+
+Returns true if given queue is empty.
+
+### `queue-peek` : `(queue A) → A`
+
+Returns the head value of mutable queue, raises error if empty.
+
+### `queue-pop` : `(queue A) → A`
+
+Pops value off of mutable queue, raises error if empty.
+
+### `queue-push` : `(queue A) → A → (queue A)`
+
+Pushes a value onto queue, returns queue.
+
+### `queue-size` : `(queue A) → number`
+
+Returns size of queue.
+
+### `queue?` : `A → boolean`
+
+Returns true if argument is a queue.
+
 ### `range` : `number → (list number)`
 
 Returns list of numbers from 1 up to and including the given number.
@@ -739,6 +787,10 @@ Returns new list with same elements in reverse order.
 ### `reverse-string` : `string → string`
 
 Returns string with same characters in reverse order.
+
+### `right` : `(binary-tree A) → (binary-tree A)`
+
+Gets the right branch of a binary tree node.
 
 ### `search-doc` : `string → (list symbol)`
 
@@ -827,6 +879,14 @@ Turns the type checker debugger on/off with +/-.
 ### `stack` : `→ (stack A)`
 
 Creates a new mutable stack.
+
+### `stack-empty?` : `(stack A) → boolean`
+
+Returns true if given stack is empty.
+
+### `stack-peek` : `(stack A) → A`
+
+Returns the top value of mutable stack, raises error if empty.
 
 ### `stack-pop` : `(stack A) → A`
 
@@ -972,6 +1032,30 @@ Sets function as being tracked by debugger.
 
 Evaluates first expression and if exception is raised, evaluates second argument and applies it to exception.
 
+### `traverse` : `symbol → (A → B → B) → B → (binary-tree A) → B`
+
+Folds values in binary tree in given traversal.
+
+### `traverse-in-order` : `(A → B → B) → B → (binary-tree A) → B`
+
+Folds values in binary tree in an in-order traversal.
+
+### `traverse-level-order` : `(A → B → B) → B → (binary-tree A) → B`
+
+Folds values in binary tree in a level-order traversal.
+
+### `traverse-out-order` : `(A → B → B) → B → (binary-tree A) → B`
+
+Folds values in binary tree in an out-order traversal.
+
+### `traverse-post-order` : `(A → B → B) → B → (binary-tree A) → B`
+
+Folds values in binary tree in a post-order traversal.
+
+### `traverse-pre-order` : `(A → B → B) → B → (binary-tree A) → B`
+
+Folds values in binary tree in a pre-order traversal.
+
 ### `trim` : `string → string`
 
 Removes whitespace characters from beginning and end of string.
@@ -1055,6 +1139,10 @@ Makes a new list out of a vector.
 ### `vector-swap` : `(vector A) → number → number → (vector A)`
 
 Swaps two elements in given vector at following indicies.
+
+### `vector-update` : `(vector A) → number → (A → A) → (vector A)`
+
+Transforms value at index by given function.
 
 ### `vector?` : `A → boolean`
 
