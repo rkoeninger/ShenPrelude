@@ -11,8 +11,8 @@
       all?
 	F Xs
   ->
-	(fold-left (/. B
- 	           X
+	(fold-left (/. X
+ 	           B
 		   	      (and B (F X)))
 	  	  true    Xs))
 	

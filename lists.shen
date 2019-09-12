@@ -114,16 +114,16 @@
   _ _ -> [])
 
 (define fold-left
-  doc "Combines values in list from left to right using given function."
-  {(A --> B --> A) --> A --> (list B) --> A}
-  F X [Y | Ys] -> (fold-left F (F X Y) Ys)
-  _ X _ -> X)
+  doc "Combines values in list from left to right using given function. Tail recursive."
+  {(A --> B --> B) --> B --> (list A) --> B}
+  F Y [X | Xs] -> (fold-left F (F X Y) Xs)
+  _ Y _ -> Y)
 
 (define fold-right
-  doc "Combines values in list from right to left using given function."
-  {(B --> A --> A) --> A --> (list B) --> A}
-  F X [Y | Ys] -> (F Y (fold-right F X Ys))
-  _ X _ -> X)
+  doc "Combines values in list from right to left using given function. Not tail recursive."
+  {(A --> B --> B) --> B --> (list A) --> B}
+  F Y [X | Xs] -> (F X (fold-right F Y Xs))
+  _ Y _ -> Y)
 
 (define separate
   doc "Splits list into two separate lists based on whether predicate returns true or false."
@@ -132,7 +132,7 @@
     (map-both
       #'reverse
       (fold-left
-        (/. P X ((if (F X) #'map-fst #'map-snd) (prepend X) P))
+        (/. X P ((if (F X) #'map-fst #'map-snd) (prepend X) P))
         (@p [] [])
         Xs)))
 
@@ -144,7 +144,7 @@
 (define distinct
   doc "Returns copy of list with duplicates removed."
   {(list A) --> (list A)}
-  Xs -> (reverse (fold-left (/. Ds X (if (contains? X Ds) Ds [X | Ds])) [] Xs)))
+  Xs -> (reverse (fold-left (/. X Ds (if (contains? X Ds) Ds [X | Ds])) [] Xs)))
 
 (define repeat
   doc "Builds list by repeating the same value N times."
@@ -186,7 +186,7 @@
 (define max-compare-by
   doc "Returns maximum value in list comparing using given function."
   {(A --> A --> boolean) --> (list A) --> A}
-  F [X | Xs] -> (fold-left (/. M X (if (F M X) X M)) X Xs)
+  F [X | Xs] -> (fold-left (/. X M (if (F M X) X M)) X Xs)
   _ _ -> (error "max-compare-by: empty list"))
 
 (define max-by
@@ -235,7 +235,7 @@
 (define interpose
   doc "Inserts value between each value in list."
   {A --> (list A) --> (list A)}
-  Sep Xs -> (tail (fold-left (/. Ys X [Sep X | Ys]) [] Xs)))
+  Sep Xs -> (tail (fold-left (/. X Ys [Sep X | Ys]) [] Xs)))
 
 (define vector->list
   doc "Makes a new list out of a vector."
@@ -247,7 +247,7 @@
   {(list A) --> (vector A)}
   Xs ->
     (let V (vector (length Xs))
-         _ (fold-left (/. I X (do (vector-> V I X) (+ 1 I))) 1 Xs)
+         _ (fold-left (/. X I (do (vector-> V I X) (+ 1 I))) 1 Xs)
       V))
 
 (define sort-vector

@@ -62,5 +62,5 @@
 
 (defmacro queue-of-macro
   [queue-of | Xs] ->
-    (fold-left (/. Q X [queue-push Q X]) [queue] Xs)
+    (fold-left (/. X Q [queue-push Q X]) [queue] Xs)
   where (cons? Xs))
