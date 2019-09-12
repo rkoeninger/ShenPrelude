@@ -125,6 +125,13 @@
   F Y [X | Xs] -> (F X (fold-right F Y Xs))
   _ Y _ -> Y)
 
+(define fold
+  doc "Combines values in list in given order."
+  {symbol --> (A --> B --> B) --> B --> (list A) --> B}
+  left  F Y Xs -> (fold-left  F Y Xs)
+  right F Y Xs -> (fold-right F Y Xs)
+  _     _ _ _  -> (error "fold expects as first argument left or right"))
+
 (define separate
   doc "Splits list into two separate lists based on whether predicate returns true or false."
   {(A --> boolean) --> (list A) --> ((list A) * (list A))}

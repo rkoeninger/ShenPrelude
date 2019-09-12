@@ -304,6 +304,10 @@ Converts a list of lists into one long list.
 
 Rounds down to nearest integer.
 
+### `fold` : `symbol → (A → B → B) → B → (list A) → B`
+
+Combines values in list in given order.
+
 ### `fold-left` : `(A → B → B) → B → (list A) → B`
 
 Combines values in list from left to right using given function. Tail recursive.
