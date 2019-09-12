@@ -23,16 +23,34 @@
   _ B tip -> B
   F B T -> (traverse-in-order F (F (here T) (traverse-in-order F B (left T))) (right T)))
 
+(define traverse-out-order
+  {(A --> B --> B) --> B --> (binary-tree A) --> B}
+  _ B tip -> B
+  F B T -> (traverse-out-order F (F (here T) (traverse-out-order F B (right T))) (left T)))
+
 (define traverse-level-order
   {(A --> B --> B) --> B --> (binary-tree A) --> B}
   _ B tip -> B
-  F B T -> (F (here T) B)) \\ TODO: implement this https://en.wikipedia.org/wiki/Tree_traversal#Breadth-first_search_2
+  F B T -> (traverse-level-order-loop F B (queue-of T)))
+
+(define traverse-level-order-loop
+  {(A --> B --> B) --> B --> (queue (binary-tree A)) --> B}
+  _ B Q -> B where (queue-empty? Q)
+  F B Q ->
+    (let T (queue-pop Q)
+         L (left T)
+         R (right T)
+      (do
+        (if (= tip L) Q (queue-push Q L))
+        (if (= tip R) Q (queue-push Q R))
+        (traverse-level-order-loop F (F (here T) B) Q))))
 
 (define traverse
   {symbol --> (A --> B --> B) --> B --> (binary-tree A) --> B}
   pre   F B T -> (traverse-pre-order   F B T)
   post  F B T -> (traverse-post-order  F B T)
   in    F B T -> (traverse-in-order    F B T)
+  out   F B T -> (traverse-out-order   F B T)
   level F B T -> (traverse-level-order F B T))
 
 (define binary-tree->list
@@ -47,7 +65,7 @@
 2 3   6    8
    \  \   /
     4  7 9
-(set *tree*
+(set t
   (node 0
     (node 1
       (node 2
@@ -69,6 +87,6 @@
           tip
           tip)
         tip))))
-(datatype tree234234 __ (value *tree*) : (binary-tree number);)
-(reverse (traverse-pre-order #'cons [] &'*tree*))
+(datatype tree234234 __ (value t) : (binary-tree number);)
+(reverse (traverse-pre-order #'cons [] &'t))
 *\
