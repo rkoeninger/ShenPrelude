@@ -96,6 +96,10 @@ Returns true if predicate returns true for any elements in list.
 
 Concat's two lists into one.
 
+### `apply`
+
+Applies function to list of arguments.
+
 ### `arity` : `A → number`
 
 Returns arity of given function name or -1 if there is not such function.
@@ -300,13 +304,13 @@ Converts a list of lists into one long list.
 
 Rounds down to nearest integer.
 
-### `fold-left` : `(A → B → A) → A → (list B) → A`
+### `fold-left` : `(A → B → B) → B → (list A) → B`
 
-Combines values in list from left to right using given function.
+Combines values in list from left to right using given function. Tail recursive.
 
-### `fold-right` : `(B → A → A) → A → (list B) → A`
+### `fold-right` : `(A → B → B) → B → (list A) → B`
 
-Combines values in list from right to left using given function.
+Combines values in list from right to left using given function. Not tail recursive.
 
 ### `for-each` : `(A → B) → (list A) → unit`
 
@@ -620,6 +624,14 @@ Returns true if argument is the name of a defined package.
 
 Splits list into list of sublists, each no longer than given length.
 
+### `peek` : `(K A) → A`
+
+Generic peek method. Returns next item from sequence without modifiying container. Raises error on empty.
+
+### `pop` : `(K A) → A`
+
+Generic pop method. Destructively removes next item from sequence. Raises error on empty.
+
 ### `pop-tc` : `→ symbol`
 
 Pops `+`/`-` off of `*tc-stack*` and set `tc` to that mode.
@@ -679,6 +691,10 @@ Used by parser to identify code that should not be interpreted. Passes through a
 ### `ps` : `symbol → (list unit)`
 
 Returns the compiled KLambda code for the given function.
+
+### `push` : `(K A) → A → (K A)`
+
+Generic push method. Adds item to mutable container.
 
 ### `push-tc` : `symbol → symbol`
 
