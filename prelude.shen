@@ -8,6 +8,7 @@
 (require-typed numbers)
 (require-untyped random)
 (require-typed tuples)
+(require-untyped functions_untyped)
 (require-typed functions)
 (require-typed lists)
 (require-untyped strings_untyped)
