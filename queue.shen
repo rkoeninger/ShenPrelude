@@ -1,5 +1,12 @@
 \\ TODO: replace with (ref _) containing a list
 
+(datatype queue
+  N : number;
+  I : (list A);
+  O : (list A);
+  ________________________________
+  (@v queue N I O <>) : (queue A);)
+
 (define queue
   doc "Creates a new queue."
   -> (@v queue 0 [] [] <>))
@@ -53,7 +60,7 @@
 (declare queue-peek [[queue A] --> A])
 (declare queue-pop [[queue A] --> A])
 
-(defmacro queue-macro
-  [queue | Xs] ->
+(defmacro queue-of-macro
+  [queue-of | Xs] ->
     (fold-left (/. Q X [queue-push Q X]) [queue] Xs)
   where (cons? Xs))

@@ -1,5 +1,11 @@
 \\ TODO: replace with (ref _) containing a list
 
+(datatype stack
+  N : number;
+  S : (list A);
+  ______________________________
+  (@v stack N S <>) : (stack A);)
+
 (define stack
   doc "Creates a new mutable stack."
   -> (@v stack 0 [] <>))
@@ -48,7 +54,7 @@
 (declare stack-peek [[stack A] --> A])
 (declare stack-pop [[stack A] --> A])
 
-(defmacro stack-macro
-  [stack | Xs] ->
+(defmacro stack-of-macro
+  [stack-of | Xs] ->
     (fold-right (/. X S [stack-push S X]) [stack] Xs)
   where (cons? Xs))
