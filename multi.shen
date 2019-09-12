@@ -1,22 +1,28 @@
 \\ Based on Clojure multi-methods (https://clojure.org/reference/multimethods)
 
 (define multi.dispatch
-  Name Arg ->
+  Name [Arg | Args] ->
     (let Dict (get Name methods)
          Kind (kind-of Arg)
          Body (trap-error
                 (shen.<-dict Dict Kind)
                 (/. _ (error "no matching implementation for kind ~A in multi ~A" Kind Name)))
-      (Body Arg)))
+      (apply Body [Arg | Args])))
+
+(define multi.arity
+  [_ --> X] -> (+ 1 (multi.arity X))
+  [_ --> | X] -> (+ 1 (multi.arity X))
+  _ -> 0)
 
 (define defmulti
   doc "Declares a new multi-method with given type."
   Name Type ->
-    (do
-      (put Name methods (shen.dict 16))
-      (eval [define Name ~'Arg -> [multi.dispatch Name ~'Arg]])
-      (declare Name Type)
-      Name))
+    (let Args (map (/. _ (gensym ~'Arg)) (range (multi.arity Type)))
+      (do
+        (put Name methods (shen.dict 16))
+        (eval (append [define Name | Args] [-> [multi.dispatch Name (internal.rcons Args)]]))
+        (declare Name Type)
+        Name)))
 
 (define defmethod
   doc "Adds implementation for multi-method for kind."
