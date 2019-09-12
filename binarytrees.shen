@@ -12,25 +12,41 @@
   doc "Folds values in binary tree in a pre-order traversal."
   {(A --> B --> B) --> B --> (binary-tree A) --> B}
   _ B tip -> B
-  F B T -> (traverse-pre-order F (traverse-pre-order F (F (here T) B) (left T)) (right T)))
+  F B T ->
+    (let B (F (here T) B)
+         B (traverse-pre-order F B (left T))
+         B (traverse-pre-order F B (right T))
+      B))
 
 (define traverse-post-order
   doc "Folds values in binary tree in a post-order traversal."
   {(A --> B --> B) --> B --> (binary-tree A) --> B}
   _ B tip -> B
-  F B T -> (F (here T) (traverse-post-order F (traverse-post-order F B (left T)) (right T))))
+  F B T ->
+    (let B (traverse-post-order F B (left T))
+         B (traverse-post-order F B (right T))
+         B (F (here T) B)
+      B))
 
 (define traverse-in-order
   doc "Folds values in binary tree in an in-order traversal."
   {(A --> B --> B) --> B --> (binary-tree A) --> B}
   _ B tip -> B
-  F B T -> (traverse-in-order F (F (here T) (traverse-in-order F B (left T))) (right T)))
+  F B T ->
+    (let B (traverse-in-order F B (left T))
+         B (F (here T) B)
+         B (traverse-in-order F B (right T))
+      B))
 
 (define traverse-out-order
   doc "Folds values in binary tree in an out-order traversal."
   {(A --> B --> B) --> B --> (binary-tree A) --> B}
   _ B tip -> B
-  F B T -> (traverse-out-order F (F (here T) (traverse-out-order F B (right T))) (left T)))
+  F B T ->
+    (let B (traverse-out-order F B (right T))
+         B (F (here T) B)
+         B (traverse-out-order F B (left T))
+      B))
 
 (define traverse-level-order
   doc "Folds values in binary tree in a level-order traversal."
