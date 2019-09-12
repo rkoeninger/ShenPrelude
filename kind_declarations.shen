@@ -8,4 +8,5 @@
 (defkind #'vector?    vector)
 (defkind #'tuple?     tuple)
 (defkind #'stack?     stack)
+(defkind #'queue?     queue)
 \\ (defkind #'pv? pv)
