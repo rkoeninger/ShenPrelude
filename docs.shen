@@ -66,6 +66,9 @@
   (set-doc require-untyped "Loads script with `(tc -)` if it has not been loaded.")
   (set-doc set-once "Sets global symbol to value only if global symbol is not already bound.")
 
+  \\ macros
+  (set-doc @d "Macro that allows declaration of dict literals. Requires even number of args, alternating key-value.")
+
   \\ docs
   (set-doc *doc-index* "Association list of symbol names to doc strings.")
   (set-doc doc "Returns doc string for symbol, or 'n/a' if there isn't one.")

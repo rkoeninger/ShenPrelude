@@ -68,6 +68,10 @@ Returns true if first number is greater than the second.
 
 Returns true if first number is greater than or equal to the second.
 
+### `@d`
+
+Macro that allows declaration of dict literals. Requires even number of args, alternating key-value.
+
 ### `abs` : `number → number`
 
 Returns the absolute value of given number.

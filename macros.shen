@@ -40,6 +40,22 @@
 (defmacro when-macro
   [when C T] -> [if C [do T [void]] [void]])
 
+(define internal.pairs
+  [] -> []
+  [X Y | Z] -> [[X Y] | (internal.pairs Z)])
+
+(defmacro @d-macro
+  [@d | More] ->
+    (error "@d form requires even number of arguments")
+  where (not (= 0 (shen.mod (length More) 2)))
+  [@d | More] ->
+    (let D (gensym (protect D))
+      [let D [shen.dict (/ (length More) 2)]
+        (append
+          [do]
+          (map (/. P [shen.dict-> D | P]) (internal.pairs More))
+          [D])]))
+
 (define internal.label
   [: X T] -> [X : T ;]
   X -> [X ;])
