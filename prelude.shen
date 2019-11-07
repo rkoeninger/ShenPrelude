@@ -22,7 +22,6 @@
 (require-untyped match)
 (require-untyped aritycheck)
 (require-untyped maybe)
-(require-typed indenter)
 (require-untyped generic)
 (require-untyped kinds)
 (require-untyped kind_declarations)
