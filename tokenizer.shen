@@ -345,21 +345,25 @@
   [[delimiter "|" | M] | Xs] -> [[whitespace " "] [delimiter "|" | M] [whitespace " "] | (space-out Xs)]
   [X                   | Xs] -> [X [whitespace " "] | (space-out Xs)])
 
+(define collapse-clause
+  (@p Patterns Action skip) -> (append Patterns [[symbol "->"] Action])
+  (@p Patterns Action Test) -> (append Patterns [[symbol "->"] Action [symbol "where"] Test]))
+
 (define pretty-print-typed-define
   Name TypeSig Clauses ->
     (append
       [[delimiter "("] [symbol "define"] [whitespace " "] Name]
       (if (> (printed-length TypeSig) 64)
-        (append [whitespace "c#10;  "] (space-out TypeSig) [whitespace "c#10;"])
+        (append [[whitespace "c#10;  "]] (space-out TypeSig) [[whitespace "c#10;"]])
         (space-out TypeSig))
-      (flat-map (/. C (append [whitespace "c#10;  "] (space-out C))) Clauses)
+      (flat-map (/. C (append [[whitespace "c#10;  "]] (space-out (collapse-clause C)))) Clauses)
       [[delimiter ")"]]))
 
 (define pretty-print-define
   Name Clauses ->
     (append
       [[delimiter "("] [symbol "define"] [whitespace " "] Name]
-      (flat-map (/. C (append [whitespace "c#10;  "] (space-out C))) Clauses)
+      (flat-map (/. C (append [[whitespace "c#10;  "]] (space-out (collapse-clause C)))) Clauses)
       [[delimiter ")"]]))
 
 (define gather-type-signature
@@ -369,7 +373,7 @@
 
 (define gather-clause
   R [[symbol "->" | _] Action [symbol "where" | _] Test | Xs] -> (@p (@p (reverse R) Action Test) Xs)
-  R [[symbol "->" | _] Action                           | Xs] -> (@p (@p (reverse R) Action [symbol "true"]) Xs)
+  R [[symbol "->" | _] Action                           | Xs] -> (@p (@p (reverse R) Action skip) Xs)
   R [X                                                  | Xs] -> (gather-clause [X | R] Xs)
   R _                                                         -> (reverse R))
 
