@@ -351,7 +351,11 @@
 (define space-out-onto
   R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "(" R)
   R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "[" R)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? ")" R)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "]" R)
   R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-whitespace? R)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "(" Xs)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "[" Xs)
   R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? ")" Xs)
   R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "]" Xs)
   R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-whitespace? Xs)
@@ -421,8 +425,12 @@
     (pretty-print-define Name (gather-clauses [] Body))
   [form [[symbol "if" | M] Test True False] | _] ->
     (append
-      [[delimiter "("]]
-      (space-out [[symbol "if" | M] | (flat-map (function pretty-print-token) [Test True False])])
+      [[delimiter "("] [symbol "if" | M] [whitespace " "]]
+      (pretty-print-token Test)
+      [[whitespace " "]]
+      (pretty-print-token True)
+      [[whitespace " "]]
+      (pretty-print-token False)
       [[delimiter ")"]])
   [form Xs | _] ->
     (append
