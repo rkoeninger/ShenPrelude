@@ -5,15 +5,7 @@
  * in the standard library.       *
  **********************************\
 
-\\ apply platform-specific optimisation
-(eval (hd (read-from-string
-  (cond
-    ((= "Common Lisp" (value *language*))
-      "(define string-length X -> (lisp.string-length X))")
-    ((= "JavaScript" (value *language*))
-      "(define string-length X -> (. X c#34;lengthc#34;))")
-    (true
-      "(define string-length X -> (length (explode X)))")))))
+(define string-length X -> (length (explode X)))
 
 (define sum-by-onto
   N F [X | Xs] -> (sum-by-onto (+ N (F X)) F Xs)
@@ -43,6 +35,14 @@
 (define flat-map
   F Xs -> (flatten (map F Xs)))
 
+(define list-join
+  _ []       -> []
+  _ [X]      -> [X]
+  Y [X | Xs] -> [X Y | (list-join Y Xs)])
+
+(define reverse-flat-map
+  F Xs -> (flatten-onto [] (map F Xs)))
+
 (define any?
   _ []       -> false
   F [X | _]  -> true where (F X)
@@ -60,8 +60,11 @@
   Nl "" [X | Xs] -> (join-lines-onto Nl X Xs)
   Nl S  [X | Xs] -> (join-lines-onto Nl (@s S Nl X) Xs))
 
-(define join-lines
+(define reverse-join-lines
   Nl Xs -> (join-lines-onto Nl "" (reverse Xs)))
+
+(define join-lines
+  Nl Xs -> (reverse-join-lines Nl (reverse Xs)))
 
 \**********************
  * Syntax Recognisors *
@@ -227,10 +230,14 @@
   S -> (implode (map (/. X (if (quote? X) (escape-char X) X)) (explode S))))
 
 (define token->string
-  [string        X | _] -> (@s "c#34;" (escape-string-literal X) "c#34;")
-  [line-comment  X | _] -> (@s "\\" X)
-  [block-comment X | _] -> (@s "\*" X "*\")
-  [A             X | _] -> X)
+  [string        X     | _] -> (@s "c#34;" (escape-string-literal X) "c#34;")
+  [line-comment  X     | _] -> (@s "\\" X)
+  [block-comment X     | _] -> (@s "\*" X "*\")
+  [form          Xs    | _] -> (@s "(" (tokens->string Xs) ")")
+  [list          Xs [] | _] -> (@s "[" (tokens->string Xs) "]")
+  [list          Xs Ys | _] -> (@s "[" (tokens->string Xs) "|" (tokens->string Ys) "]")
+  [A                 X | _] -> X
+  X -> (error "token->string: ~A" X))
 
 (define tokens->string
   Xs -> (implode (map (function token->string) Xs)))
@@ -255,7 +262,7 @@
 
 (define inflate-list
   _ [[delimiter ")" | _] | _]  -> (error "mismatched )")
-  R [[delimiter "]" | _] | Xs] -> (@p (gather-tail (inflate (reverse R))) Xs)
+  R [[delimiter "]" | _] | Xs] -> (@p (gather-tail (tokens->trees (reverse R))) Xs)
   R [[delimiter "(" | _] | Xs] -> (let P (inflate-form [] Xs) (inflate-list [(fst P) | R] (snd P)))
   R [[delimiter "[" | _] | Xs] -> (let P (inflate-list [] Xs) (inflate-list [(fst P) | R] (snd P)))
   R [[delimiter X   | M] | Xs] -> (inflate-list [[symbol X | M] | R] Xs)
@@ -268,8 +275,8 @@
   R [[delimiter "(" | _] | Xs] -> (let P (inflate-form [] Xs) (inflate-form [(fst P) | R] (snd P)))
   R [[delimiter "[" | _] | Xs] -> (let P (inflate-list [] Xs) (inflate-form [(fst P) | R] (snd P)))
   R [[delimiter X   | M] | Xs] -> (inflate-form [[symbol X | M] | R] Xs)
-  R [X                 | Xs] -> (inflate-form [X | R] Xs)
-  R _                        -> (error "unexpected end of form"))
+  R [X                   | Xs] -> (inflate-form [X | R] Xs)
+  R _                          -> (error "unexpected end of form"))
 
 (define inflate-tokens
   _ [[delimiter ")" | _] | _]  -> (error "mismatched )")
@@ -331,12 +338,8 @@
  ******************************************************\
 
 (define printed-length
-  [form         Xs    | _] -> (sum-by (function printed-length) Xs)
-  [list         Xs Ys | _] -> (+ (sum-by (function printed-length) Xs) (sum-by (function printed-length) Ys))
-  [line-comment Xs    | _] -> (+ 2 (string-length Xs))
-  [_            X     | _] -> (string-length X))
+  Xs -> (string-length (tokens->string Xs)))
 
-\\ TODO: need more context awareness
 (define space-out
   []                         -> []
   [X]                        -> [X]
@@ -346,16 +349,25 @@
   [X                   | Xs] -> [X [whitespace " "] | (space-out Xs)])
 
 (define collapse-clause
-  (@p Patterns Action skip) -> (append Patterns [[symbol "->"] Action])
-  (@p Patterns Action Test) -> (append Patterns [[symbol "->"] Action [symbol "where"] Test]))
+  (@p Patterns Action skip) ->
+    (append
+      (flat-map (function pretty-print-token) Patterns)
+      [[symbol "->"]]
+      (pretty-print-token Action))
+  (@p Patterns Action Test) ->
+    (append
+      (flat-map (function pretty-print-token) Patterns)
+      [[symbol "->"]]
+      (pretty-print-token Action)
+      [[symbol "where"]]
+      (pretty-print-token Test)))
 
 (define pretty-print-typed-define
   Name TypeSig Clauses ->
     (append
       [[delimiter "("] [symbol "define"] [whitespace " "] Name]
-      (if (> (printed-length TypeSig) 64)
-        (append [[whitespace "c#10;  "]] (space-out TypeSig) [[whitespace "c#10;"]])
-        (space-out TypeSig))
+      (let Lead (if (> (printed-length TypeSig) 64) [whitespace "c#10;  "] [whitespace " "])
+        (append [Lead [symbol "{"]] (space-out TypeSig) [[symbol "}"]]))
       (flat-map (/. C (append [[whitespace "c#10;  "]] (space-out (collapse-clause C)))) Clauses)
       [[delimiter ")"]]))
 
@@ -367,7 +379,7 @@
       [[delimiter ")"]]))
 
 (define gather-type-signature
-  R [[symbol "}" | M] | Xs] -> (@p (reverse [[symbol "}" | M] | R]) Xs)
+  R [[symbol "}" | _] | Xs] -> (@p (reverse R) Xs)
   R [X                | Xs] -> (gather-type-signature [X | R] Xs)
   R _                       -> (error "unexpected end of type signature"))
 
@@ -387,43 +399,47 @@
 \\ TODO: need special format handling for:
 \\ define, define{, defun, defmacro, defprolog, prolog?, datatype, let, if, trap-error, lambda
 (define pretty-print-token
-  [form [[symbol "define" | _] Name [symbol "{" | M] | Body] | _] ->
-    (let P (gather-type-signature [[symbol "{" | M] | Body])
+  [form [[symbol "define" | _] Name [symbol "{" | _] | Body] | _] ->
+    (let P (gather-type-signature [] Body)
       (pretty-print-typed-define Name (fst P) (gather-clauses [] (snd P))))
   [form [[symbol "define" | _] Name | Body] | _] ->
     (pretty-print-define Name (gather-clauses [] Body))
   [form [[symbol "if" | M] Test True False] | _] ->
     (append
       [[delimiter "("]]
-      (space-out [[symbol "if" | M] Test True False])
+      (space-out [[symbol "if" | M] | (flat-map (function pretty-print-token) [Test True False])])
       [[delimiter ")"]])
   [form Xs | _] ->
     (append
       [[delimiter "("]]
-      (space-out Xs)
+      (space-out (flat-map (function pretty-print-token) Xs))
       [[delimiter ")"]])
   [list Xs [] | _] ->
     (append
       [[delimiter "["]]
-      (space-out Xs)
+      (space-out (flat-map (function pretty-print-token) Xs))
       [[delimiter "]"]])
   [list Xs Ys | _] ->
     (append
       [[delimiter "["]]
-      (space-out Xs)
+      (space-out (flat-map (function pretty-print-token) Xs))
       [[whitespace " "] [delimiter "|"] [whitespace " "]]
-      (space-out Ys)
+      (space-out (flat-map (function pretty-print-token) Ys))
       [[delimiter "]"]])
   X ->
-    X)
+    [X])
 
 (define pretty
   S ->
-    (join-lines
-      "c#10;c#10;"
-      (reverse-map
-        (/. X (join-lines "" (reverse-map (function token->string) (pretty-print-token X))))
-        (strip-meta (tokens->trees (strip-whitespace (string->tokens S)))))))
+    (reverse-join-lines
+      ""
+      (map
+        (/. Xs (join-lines "" Xs))
+        (list-join
+          ["c#10;c#10;"]
+          (reverse-map
+            (/. X (map (function token->string) (pretty-print-token X)))
+            (strip-meta (tokens->trees (strip-whitespace (string->tokens S)))))))))
 
 \*******************************************
  * Shen AST Creation Functions             *
