@@ -340,13 +340,28 @@
 (define printed-length
   Xs -> (string-length (tokens->string Xs)))
 
+(define starts-with-delimiter?
+  D [[delimiter D | _] | _] -> true
+  _ _                       -> false)
+
+(define starts-with-whitespace?
+  [[whitespace | _] | _] -> true
+  _                      -> false)
+
+(define space-out-onto
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "(" R)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "[" R)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-whitespace? R)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? ")" Xs)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-delimiter? "]" Xs)
+  R [X | Xs] -> (space-out-onto [X                  | R] Xs) where (starts-with-whitespace? Xs)
+  R [X | Xs] -> (space-out-onto [X [whitespace " "] | R] Xs)
+  R _        -> (reverse R))
+
 (define space-out
-  []                         -> []
-  [X]                        -> [X]
-  [[delimiter "(" | M] | Xs] -> [[delimiter "(" | M] | (space-out Xs)]
-  [[delimiter "[" | M] | Xs] -> [[delimiter "[" | M] | (space-out Xs)]
-  [[delimiter "|" | M] | Xs] -> [[whitespace " "] [delimiter "|" | M] [whitespace " "] | (space-out Xs)]
-  [X                   | Xs] -> [X [whitespace " "] | (space-out Xs)])
+  []  -> []
+  [X] -> [X]
+  Xs  -> (space-out-onto [] Xs))
 
 (define collapse-clause
   (@p Patterns Action skip) ->
@@ -412,19 +427,19 @@
   [form Xs | _] ->
     (append
       [[delimiter "("]]
-      (space-out (flat-map (function pretty-print-token) Xs))
+      (flat-map (function pretty-print-token) (space-out Xs))
       [[delimiter ")"]])
   [list Xs [] | _] ->
     (append
       [[delimiter "["]]
-      (space-out (flat-map (function pretty-print-token) Xs))
+      (flat-map (function pretty-print-token) (space-out Xs))
       [[delimiter "]"]])
   [list Xs Ys | _] ->
     (append
       [[delimiter "["]]
-      (space-out (flat-map (function pretty-print-token) Xs))
-      [[whitespace " "] [delimiter "|"] [whitespace " "]]
-      (space-out (flat-map (function pretty-print-token) Ys))
+      (flat-map (function pretty-print-token) (space-out Xs))
+      [[delimiter "|"]]
+      (flat-map (function pretty-print-token) (space-out Ys))
       [[delimiter "]"]])
   X ->
     [X])
